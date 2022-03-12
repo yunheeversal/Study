@@ -17,15 +17,15 @@ public class StarPrinterPrac07 {
         for(int i =iMin ; i<=iMax;i++) {
             String stars = "";
             
-            if(i<userNumber) {
-                int starWidth = i;
+            if(i<userNumber) {   // 1 < 5  4줄까지 입력하는 부분 
+                int starWidth = i;   // 별이 하나씩 많아져야 하니까.
             for(int j = 1; j<=starWidth; j++) {
                 stars +="*";
             }
             
-            }else {
-                int lowerI = i-userNumber;
-                int starWidth = userNumber - lowerI ;
+            }else {   // 6(i) > 5(userNumber) 이래야지 아랫부분을 이어나갈 수 있지요.
+                int lowerI = i-userNumber;  // 6-5 = 1 
+                int starWidth = userNumber - lowerI ; // 별이 네개에서 시작해서 하나로 끝나니까.
                 for (int j = 1; j <= starWidth; j++) {
                     stars += "*";
                 }
