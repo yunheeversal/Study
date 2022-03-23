@@ -49,7 +49,7 @@ public class MovieViewer {
 
             if (userChoice == 1) {
                 printList();
-            } else if (userChoice == 3) {
+            } else if (userChoice == 2) {
                 System.out.println("사용해주셔서 감사합니다.");
                 break;
             }
@@ -65,28 +65,54 @@ public class MovieViewer {
         } else {
             for (MovieDTO m : temp) {
                 System.out.printf("%d번. 제목: %s\n", m.getMovieNum(), m.getTitle());
+            }
+            String message = "상세보기할 영화의 번호나 뒤로 가시려면 0을 입력해주세요.";
+            int userChoice = ScannerUtil.nextInt(scanner, message);
 
-                String message;
-                int optionMin, optionMax; // 선택 가짓수를 변수로 일단 정한다.
+            while (userChoice != 0 && movieController.selectOne(userChoice) == null) {
+                System.out.println("잘못 입력하셨습니다.");
+                userChoice = ScannerUtil.nextInt(scanner, message);
+            }
 
-                MovieDTO mo = movieController.selectOne(m.getMovieNum());
-                if (logIn.getUserRank() == 3) {
-                    message = "1. 수정 2. 삭제 3. 목록으로 가기";
-                    optionMin = 1;
-                    optionMax = 3;
+            if (userChoice != 0) {
+                printOne(userChoice);
+            }
+        }
+    }
 
-                    int userChoice = ScannerUtil.nextInt(scanner, message, optionMin, optionMax);// 작성자가 아닐 경우 오직 3만
-                    if (userChoice == 1) {
-                        update(m.getMovieNum());
-                    } else if (userChoice == 2) {
-                        delete(m.getMovieNum());
-                    } else if (userChoice == 3) {
-                       
-                    }
-                }
+    private void printOne(int movieNum) {
+        MovieDTO m = movieController.selectOne(movieNum);
+
+        System.out.print("영화 번호:" + m.getMovieNum() + "번");
+        System.out.println(" 제목: " + m.getTitle());
+        System.out.println("관람 등급: " + m.getRating());
+        System.out.println("줄거리: " + m.getSummary());
+
+        String message;
+        int optionMin, optionMax; // 선택 가짓수를 변수로 일단 정한다.
+
+        MovieDTO mo = movieController.selectOne(m.getMovieNum());
+        if (logIn.getUserRank() == 3) {
+            message = "1. 수정 2. 삭제 3. 목록으로 가기";
+            optionMin = 1;
+            optionMax = 3;
+
+            int userChoice = ScannerUtil.nextInt(scanner, message, optionMin, optionMax);// 작성자가 아닐 경우 오직 3만
+            if (userChoice == 1) {
+                update(m.getMovieNum());
+            } else if (userChoice == 2) {
+                delete(m.getMovieNum());
+            } else if (userChoice == 3) {
 
             }
-            scoreViewer.printAll();
+        } else {
+
+            message = "> 해당 영화의 평점보러 갈까요? (Y / N)";
+            String yesNo = ScannerUtil.nextLine(scanner, message);
+
+            if (yesNo.equalsIgnoreCase("Y")) {
+                scoreViewer.printOne(movieNum);
+            }
 
         }
 
@@ -110,8 +136,8 @@ public class MovieViewer {
 //
 //        message = "정말로 수정하시겠습니까? Y/N";
 //        String yesNo = ScannerUtil.nextLine(scanner, message);
-        
-        movieController.update(m);
+
+        movieController.update(m); // 업데이트가 안됨. 여기서 막힘.
 //        if (yesNo.equalsIgnoreCase("Y")) {
 //            MovieDTO m1 = new MovieDTO();
 //            m1.setTitle(title);

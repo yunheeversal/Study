@@ -1,5 +1,7 @@
 package miniproject;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import miniproject.ScreeningDTO;
 
@@ -12,6 +14,7 @@ public class ScreeningController {
     public ScreeningController() {
         list = new ArrayList<>();
         nextId = 1;
+               
     }
     // 목록을 뷰어로 보내주는 selectAll()
     public ArrayList<ScreeningDTO> selectAll() {

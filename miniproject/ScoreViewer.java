@@ -15,6 +15,10 @@ import miniproject.MovieViewer;
 
 // 해야할 것 영화랑 연결해서.. 평점 볼 수 있게 하기. 
 public class ScoreViewer {
+    // 평점 상수
+    private final int SCORE_MIN = 1;
+    private final int SCORE_MAX = 5;
+
     private ScoreController scoreController;
     private Scanner scanner;
     private MovieViewer movieViewer;
@@ -45,150 +49,77 @@ public class ScoreViewer {
         }
     }
 
-    public void showMenu() {
-        String message = "1. 영화 평점 보기 2.종료";
-
-        while (true) {
-            int userChoice = ScannerUtil.nextInt(scanner, message);
-
-            if (userChoice == 1) {
-                printAll();
-
-            } else if (userChoice == 2) {
-                System.out.println("사용해주셔서 감사합니다.");
-                break;
-            }
-        }
-    }
-
-    public void printAll() {
-        ArrayList<MovieDTO> list = movieController.selectAll();
-
-        if (list.isEmpty()) {
-            System.out.println("아직 등록된 영화가 존재하지 않습니다.");
-        } else {
-            for (MovieDTO m : list) {
-                System.out.printf("%d번. 제목: %s\n", m.getMovieNum(), m.getTitle());
-            }
-
-            String message = "상세보기할 글의 번호나 뒤로 가실려면 0을 입력해주세요.";
-            int userChoice = ScannerUtil.nextInt(scanner, message);
-
-            while (userChoice != 0 && scoreController.selectOne(userChoice) == null) {
-                System.out.println("잘못 입력하셨습니다.");
-                userChoice = ScannerUtil.nextInt(scanner, message);
-            }
-
-            if (userChoice != 0) {
-                printOne(userChoice);
-            }
-
-        }
-    }
-
-
-    // 글 상세보기를 출력하는 printOne()
-    private void printOne(int movieNum) {
+    // 상세보기를 출력하는 printOne()
+    public void printOne(int movieNum) {
         ScoreDTO s = scoreController.selectOne(movieNum);
+        MovieDTO m = movieController.selectOne(movieNum);
+//        ArrayList<ScoreDTO> temp = scoreController.selectAll();
 
-        // 영화별 전체 평점 보기
+     // 영화별 전체 평점 보기
         System.out.println("전체 평점");
-        System.out.printf("%s - by \n", s.getMovieNum());
+        System.out.printf("%s - by \n", m.getMovieNum());
         System.out.printf("%s 점 \n", s.getMovieScore());
         System.out.printf("%s  \n", s.getMovieReview());
 
         // 영화별 평론가 평점 보기
         System.out.println("평론가 평점");
-        System.out.printf("%s - by \n", s.getMovieNum());
+        System.out.printf("%s - by \n", m.getMovieNum());
         System.out.printf("%s 점 \n", s.getMovieScore());
         System.out.printf("%s  \n", s.getMovieReview());
 
         // 영화별 일반 관람객 평점 보기
         System.out.println("일반 관람객 평점");
-        System.out.printf("%s - by \n", s.getMovieNum());
+        System.out.printf("%s - by \n", m.getMovieNum());
         System.out.printf("%s 점 \n", s.getMovieScore());
         System.out.printf("%s  \n", s.getMovieReview());
         
-        String message;
-        int optionMin, optionMax; // 선택 가짓수를 변수로 일단 정한다.
         
-        if (logIn.getUserRank() == 3) {
-            message = "1. 수정 2. 삭제 3. 목록으로 가기";
-            optionMin = 1;
-            optionMax = 3;
+            String message = "평점을 등록 하시겠습니까? Y/N";
+            String yesNo = ScannerUtil.nextLine(scanner, message);
 
-            int userChoice = ScannerUtil.nextInt(scanner, message, optionMin, optionMax);// 작성자가 아닐 경우 오직 3만
-                                                                                         // 입력가능하게 만든것임.
-            if (userChoice == 1) {
-                update(movieNum);
-            } else if (userChoice == 2) {
-                delete(movieNum);
-            } else if (userChoice == 3) {
-               
+            if (yesNo.equalsIgnoreCase("Y")) {
+                writeScore();
+                if (logIn.getUserRank() == 2) {
+                    // 전문 평론가 평점 작성 - 얘네끼리만 볼 수 있게 하는건 어케 하지
+                    writeScore();
+                } else {
+                    // 일반 관람객 평점 작성
+                    writeScore();
+                }
             } 
-        }
-        System.out.println("권한이 없습니다.");
-       
-
-    }
-
-//    // 관리자 페이지
-//    private void scoreManager(int scoreNum) {
-//        ScoreDTO s = scoreController.selectOne(scoreNum);
-//        movieViewer.printList();
-//
-//        // 관리자 전용
-//        if (logIn.getUserRank() == 3) {
-//            String message = "1. 수정 2. 삭제  3. 뒤로 가기 ";
-//            int userChoice = ScannerUtil.nextInt(scanner, message);
-//
-//            if (userChoice == 1) {
-//                update(scoreNum);
-//            } else if (userChoice == 2) {
-//                delete();
-//            } else if (userChoice == 3) {
-//                printAll();
-//            }
-//
-//        } else {
-//            System.out.println("권한이 없습니다.");
-//            printAll();
-//        }
-//
-//    }
-
-    private void update(int scoreNum) {
-        
-        ScoreDTO s = scoreController.selectOne(scoreNum);
-
-        String message;
-
-        message = "새로운 평점을 입력해주세요.";
-        s.setMovieScore(ScannerUtil.nextInt(scanner, message));
-        message = "새로운 평론 입력해주세요.";
-        s.setMovieReview(ScannerUtil.nextLine(scanner, message));
-
-        message = "정말로 수정하시겠습니까? Y/N";
-        String yesNo = ScannerUtil.nextLine(scanner, message);
-
-        if (yesNo.equalsIgnoreCase("Y")) {
-            scoreController.update(s);
-            printOne(s.getScoreNum());
-        }
-
-       
-    }
-
-    private void delete(int scoreNum) {
-        ScoreDTO s = new ScoreDTO();
-        String message = "정말로 삭제하시겠습니까? Y/N";
-        String yesNo = ScannerUtil.nextLine(scanner, message);
-
-        if (yesNo.equalsIgnoreCase("Y")) {
-            scoreController.delete(s.getScoreNum());
-            printAll();
-        } else {
+            
+      
             
         }
+   
+    
+
+    private void writeScore() {
+        ScoreDTO s = new ScoreDTO();
+        ArrayList<MovieDTO> temp = movieController.selectAll();
+        
+        String message;
+        message = "1. 새 평점 등록 2. 뒤로가기";
+        int userChoice = ScannerUtil.nextInt(scanner, message);
+
+        if (userChoice == 1) {
+           
+            for (MovieDTO m1 : temp) {
+                System.out.printf("%d번. 제목: %s\n", m1.getMovieNum(), m1.getTitle());
+            }
+            message = "평점을 등록할 영화의 번호를 입력해주세요.";
+            s.setMovieNum(ScannerUtil.nextInt(scanner, message));
+            message = "평점을 입력해주세요.";
+            s.setMovieScore(ScannerUtil.nextInt(scanner, message, SCORE_MIN, SCORE_MAX));
+            message = "평론을 입력해주세요.";
+            s.setMovieReview(ScannerUtil.nextLine(scanner, message));
+            
+            scoreController.add(s);
+
+        }  
+        
+
     }
+
+
 }

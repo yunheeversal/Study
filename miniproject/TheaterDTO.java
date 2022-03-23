@@ -10,7 +10,7 @@ public class TheaterDTO {
     // 극장 위치
     private String theaterLocation;
     // 극장 전화번호 
-    private int theaterTel;
+    private String theaterTel;
     
     public int getTheaterNum() {
         return theaterNum;
@@ -30,14 +30,13 @@ public class TheaterDTO {
     public void setTheaterLocation(String theaterLocation) {
         this.theaterLocation = theaterLocation;
     }
-    public int getTheaterTel() {
+   
+    public String getTheaterTel() {
         return theaterTel;
     }
-    public void setTheaterTel(int theaterTel) {
+    public void setTheaterTel(String theaterTel) {
         this.theaterTel = theaterTel;
     }
-
-    
     // equals() 오버라이드
     public boolean equlas(Object o) {
         if(o instanceof TheaterDTO) {// instanceof로 형변환 가능 여부 확인 

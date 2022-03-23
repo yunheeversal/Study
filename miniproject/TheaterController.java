@@ -15,6 +15,15 @@ public class TheaterController {
         list = new ArrayList<>();
         nextId = 1;
         
+        for (int i = 1; i <= 4; i++) {
+            TheaterDTO t = new TheaterDTO();
+            t.setTheaterNum(1);
+            t.setTheaterLocation("평택");
+            t.setTheaterName("A"+i+"극장");
+            t.setTheaterTel("031-1234"+i);
+            add(t);
+        }
+        
     }
     
     // 극장번호를 추가 후 리스트에 저장 

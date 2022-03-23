@@ -1,8 +1,10 @@
 package miniproject;
 
 import java.util.Calendar;
+import miniproject.TheaterDTO;
 
 public class ScreeningDTO {
+    private TheaterDTO  t;
    // 필드
     // 상영정보 번호
     private int screeningNum;
@@ -57,8 +59,8 @@ public class ScreeningDTO {
     
     public ScreeningDTO (ScreeningDTO s) {
         this.screeningNum = s.screeningNum;
-        movieNum = s.movieNum;
-        theaterNum = s.theaterNum;
+//        movieNum = s.movieNum;
+//        theaterNum = s.theaterNum;
         screeningDate = s.screeningDate;
     }
     

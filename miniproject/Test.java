@@ -1,11 +1,10 @@
 package miniproject;
 
-import miniproject.MovieUserViewer;
+import miniproject.TheaterViewer;
 
 public class Test {
     public static void main(String[] args) {
-        MovieUserViewer movieUserViewer = new MovieUserViewer();
-        movieUserViewer.showIndex();
-      
+        TheaterViewer viewer = new TheaterViewer();
+        viewer.showMenu();
     }
 }

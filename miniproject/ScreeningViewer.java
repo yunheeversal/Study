@@ -47,9 +47,9 @@ public class ScreeningViewer {
 
             
             if (userChoice == 1) {
-                
+                showIndex();
             } else if (userChoice == 2) {
-                movieUserViewer.showMenu();
+//                movieUserViewer.showMenu();
                 
               }
         }
@@ -75,12 +75,13 @@ public class ScreeningViewer {
     // printOne()
     private void printAll() {
         ArrayList<ScreeningDTO> temp = screeningController.selectAll();
-
+        MovieDTO m = new MovieDTO();
+        
         if (temp.isEmpty()) {
             System.out.println("등록된 영화 정보가 존재하지 않습니다.");
         } else {
             for (ScreeningDTO s : temp) {
-                System.out.printf("%d번. %s\n", s.getMovieNum() );// 영화 제목도 넣어야해
+                System.out.printf("%d번. %s\n", s.getScreeningNum(), m.getTitle() );// 영화 제목도 넣어야해
             }
          
             String message = "상세보기할 영화의 번호나 뒤로 가실려면 0을 입력해주세요.";

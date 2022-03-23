@@ -15,17 +15,22 @@ public class MovieController {
         list = new ArrayList<>();
         nextId = 1;
         
-//        for (int i = 1; i <= 4; i++) {
-//            MovieDTO m = new MovieDTO();
-//            m.setRating("전체 관람가");
-//            m.setTitle("영화" + i);
-//            m.setSummary("이건 "+ i +"점짜리 영화입니다.");
-//            add(m);
-//        }
+        for (int i = 1; i <= 4; i++) {
+            MovieDTO m = new MovieDTO();
+            m.setRating("전체 관람가");
+            m.setTitle("영화" + i);
+            m.setSummary("이건 "+ i +"점짜리 영화입니다.");
+            
+            add(m);
+        }
         
     }
 
-    
+    // 관리자 전용 : 영화 번호 추가 후 list에 추가하는 add()
+    public void add(MovieDTO m) {
+        m.setMovieNum(nextId++);
+        list.add(m);
+    }
     // 영화 목록을 뷰어로 보내주는 selectAll()
     public ArrayList<MovieDTO> selectAll() {
         ArrayList<MovieDTO> temp = new ArrayList<>();
@@ -52,11 +57,7 @@ public class MovieController {
     
     // 관리자 전용 
     
-    // 관리자 전용 : 영화 번호 추가 후 list에 추가하는 add()
-    public void add(MovieDTO m) {
-        m.setMovieNum(nextId++);
-        list.add(m);
-    }
+
     
     // 관리자 전용 :  update
     public void update(MovieDTO m) {
