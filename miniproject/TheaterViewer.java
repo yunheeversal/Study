@@ -14,11 +14,26 @@ import miniproject.TheaterDTO;
 public class TheaterViewer {
     private TheaterController theaterController;
     private Scanner scanner;
+    private MovieUserViewer movieUserViewer; 
+    private MovieUserDTO logIn;
     
     public TheaterViewer() {
         theaterController = new TheaterController();
         scanner = new Scanner(System.in);
 
+    }
+    // 로그인 정보를 위한 유저 뷰어  
+    public void setMovieUserViewer(MovieUserViewer movieUserViewer) {
+        this.movieUserViewer = movieUserViewer;
+    }
+    
+    
+    public void setLogIn(MovieUserDTO m) {
+        if (m != null) {
+            logIn = new MovieUserDTO(m);
+        } else {
+            logIn = null;
+        }
     }
     
     // showMenu()

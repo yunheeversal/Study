@@ -6,13 +6,23 @@ import miniproject.MovieDTO;
 // 평점 보기 해결 해보기.. 
 
 public class MovieController {
+    
     private ArrayList<MovieDTO> list;
-    // 다음 입력할 사원의 번호를 저장할 int 필드
+    // 다음 입력할 번호를 저장할 int 필드
     private int nextId;
     // 필드를 초기화할 생성자
     public MovieController() {
         list = new ArrayList<>();
         nextId = 1;
+        
+//        for (int i = 1; i <= 4; i++) {
+//            MovieDTO m = new MovieDTO();
+//            m.setRating("전체 관람가");
+//            m.setTitle("영화" + i);
+//            m.setSummary("이건 "+ i +"점짜리 영화입니다.");
+//            add(m);
+//        }
+        
     }
 
     
