@@ -23,19 +23,19 @@ public class MovieUserViewer {
     private MovieUserController userController;
     // 추후에 뷰어 추가할 일 생기면 추가하기 private BoardViewer boardViewer; 이런식으로
     private MovieViewer movieViewer;
-    private ScoreViewer scoreViewer;
-    private ScreeningViewer screeningViewer;
+
+    private  TheaterViewer theaterViewer;
+ 
 
     public MovieUserViewer() {
         scanner = new Scanner(System.in);
         userController = new MovieUserController();
         // 추후 연관된 뷰어 추가하려면 이렇게 ! replyViewer = new ReplyViewer();
         movieViewer = new MovieViewer();
-        scoreViewer = new ScoreViewer();
-        screeningViewer = new ScreeningViewer();
+        theaterViewer = new TheaterViewer();
         // 무비뷰어 - 유저 정보, 평점 같이 연결해서 볼 수 있게?
         movieViewer.setMovieUserViewer(this);
-        movieViewer.setScoreViewer(scoreViewer);
+//        movieViewer.setScoreViewer(scoreViewer);
         ;
         // 극장 뷰어
 
@@ -137,20 +137,21 @@ public class MovieUserViewer {
             String message = "1. 영화 목록 보기 2. 극장 목록 보기 3. 로그아웃";
 
             movieViewer.setLogIn(logIn); // 영화에도 로그인 적용
-            screeningViewer.setLogIn(logIn); // 극장에도 로그인 적용
+            theaterViewer.setLogIn(logIn); // 극장에도 로그인 적용
             int userChoice = ScannerUtil.nextInt(scanner, message);
 
             if (userChoice == 1) {
                 movieViewer.showMenu();
                 // 영화 목록 불러오기
             } else if (userChoice == 2) {
-                screeningViewer.showMenu();
+               
+                theaterViewer.showMenu();
                 // 극장 목록 불러오기
             } else if (userChoice == 3) {
                 System.out.println("로그아웃 되셨습니다.");
                 logIn = null;
                 movieViewer.setLogIn(null);
-                screeningViewer.setLogIn(null);
+                theaterViewer.setLogIn(null);
                 break;
             }
 

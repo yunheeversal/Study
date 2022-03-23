@@ -13,7 +13,6 @@ import util.ScannerUtil;
 //S. (관리자 전용) 기존 상영정보 삭제하기
 
 public class ScreeningViewer {
-    private final String DATE_FORMAT = "yy-MM-dd H:m";
 
     private Scanner scanner;
     private ScreeningController screeningController;
@@ -30,6 +29,9 @@ public class ScreeningViewer {
     public void setMovieUserViewer(MovieUserViewer movieUserViewer) {
         this.movieUserViewer = movieUserViewer;
     }
+
+ 
+    
     
     public void setLogIn(MovieUserDTO m) {
         if (m != null) {
@@ -39,49 +41,49 @@ public class ScreeningViewer {
         }
     }
     
-    // showMenu()
-    public void showMenu() {
-        String message = "1. 상영정보 목록 2. 메인화면으로";
-        while (true) {
-            int userChoice = ScannerUtil.nextInt(scanner, message);
-
-            
-            if (userChoice == 1) {
-                showIndex();
-            } else if (userChoice == 2) {
+//    // showMenu()
+//    public void showMenu() {
+//        String message = "1. 상영정보 목록 2. 메인화면으로";
+//        while (true) {
+//            int userChoice = ScannerUtil.nextInt(scanner, message);
+//
+//            
+//            if (userChoice == 1) {
+//                showIndex();
+//            } else if (userChoice == 2) {
 //                movieUserViewer.showMenu();
-                
-              }
-        }
-        
-    }
-    
+//                
+//              }
+//        }
+//        
+//    }
+//    
     // showIndex()
-    public void showIndex() {
-        String message = "1.현재 상영중인 영화 보기 2. 뒤로 가기 ";
-        while (true) {
-            int userChoice = ScannerUtil.nextInt(scanner, message, 1, 3);
-          
-            if (userChoice == 1) {
-                printAll();
-            } else if (userChoice == 2) {
-                showMenu();
-            
-            }
-        }
-        
-    }
+//    public void showIndex() {
+//        String message = "1.현재 상영중인 영화 보기 2. 뒤로 가기 ";
+//        while (true) {
+//            int userChoice = ScannerUtil.nextInt(scanner, message, 1, 3);
+//          
+//            if (userChoice == 1) {
+//                printAll();
+//            } else if (userChoice == 2) {
+//                showMenu();
+//            
+//            }
+//        }
+//        
+//    }
     
-    // printOne()
-    private void printAll() {
-        ArrayList<ScreeningDTO> temp = screeningController.selectAll();
+    // printAll()
+    public void printAll(int screeningNum) {
+        ArrayList<ScreeningDTO> temp = screeningController.selectAll(screeningNum);
         MovieDTO m = new MovieDTO();
         
-        if (temp.isEmpty()) {
+        if (temp == null) {
             System.out.println("등록된 영화 정보가 존재하지 않습니다.");
         } else {
             for (ScreeningDTO s : temp) {
-                System.out.printf("%d번. %s\n", s.getScreeningNum(), m.getTitle() );// 영화 제목도 넣어야해
+                System.out.printf("%d번. %s %s\n", s.getScreeningNum(), s.getScreeningTitle(),s.getScreeningDate() );// 영화 제목도 넣어야해
             }
          
             String message = "상세보기할 영화의 번호나 뒤로 가실려면 0을 입력해주세요.";
@@ -104,7 +106,14 @@ public class ScreeningViewer {
     
  // 상영 영화 개별 보기  영화 제목 넣기.. ㅠ
     private void printOne(int screeningNum) {
+        ArrayList<ScreeningDTO> temp = screeningController.selectAll(screeningNum);
+
         ScreeningDTO s = screeningController.selectOne(screeningNum);
+        
+        System.out.println("상영 번호: "+ s.getScreeningNum());
+        System.out.println("상영 시간: "+ s.getScreeningDate());
+        System.out.println("제목: "+ s.getScreeningTitle());
+        
         
         // 관리자 전용 메뉴 
         int optionMin, optionMax; // 선택 가짓수를 변수로 일단 정한다.
@@ -131,7 +140,6 @@ public class ScreeningViewer {
     // 관리자 전용 
     private void update(int screeningNum) {
         ScreeningDTO s = screeningController.selectOne(screeningNum);
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 
         String message;
 
@@ -140,15 +148,11 @@ public class ScreeningViewer {
         message = "새로운 극장 번호를 입력해주세요.";
         s.setTheaterNum(ScannerUtil.nextInt(scanner, message));
         message = "새로운 상영시간을 입력해주세요.";
-        System.out.println("작성일: " + sdf.format(s.getScreeningDate())); 
+        s.setScreeningDate(ScannerUtil.nextLine(scanner, message));
+        
         // 상영시간 다시 하기 
 
-//        message = "정말로 수정하시겠습니까? Y/N";
-//        String yesNo = ScannerUtil.nextLine(scanner, message);
-//
-//        if (yesNo.equalsIgnoreCase("Y")) {
             screeningController.update(s);
-//        }
 
         printOne(screeningNum); // ?? 이거 다시 확인하기 
     }

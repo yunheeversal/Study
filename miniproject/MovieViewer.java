@@ -13,6 +13,7 @@ public class MovieViewer {
 
     private MovieController movieController;
     private Scanner scanner;
+    
     private ScoreViewer scoreViewer;
     private MovieUserViewer movieUserViewer;
     private MovieUserDTO logIn;
@@ -20,6 +21,7 @@ public class MovieViewer {
     public MovieViewer() {
         movieController = new MovieController();
         scanner = new Scanner(System.in);
+        
     }
     // 다른 뷰어 연결
 
@@ -91,21 +93,20 @@ public class MovieViewer {
         String message;
         int optionMin, optionMax; // 선택 가짓수를 변수로 일단 정한다.
 
-        MovieDTO mo = movieController.selectOne(m.getMovieNum());
         if (logIn.getUserRank() == 3) {
             message = "1. 수정 2. 삭제 3. 목록으로 가기";
             optionMin = 1;
             optionMax = 3;
-
             int userChoice = ScannerUtil.nextInt(scanner, message, optionMin, optionMax);// 작성자가 아닐 경우 오직 3만
-            if (userChoice == 1) {
-                update(m.getMovieNum());
-            } else if (userChoice == 2) {
-                delete(m.getMovieNum());
-            } else if (userChoice == 3) {
 
+            if (userChoice == 1) {
+                update(movieNum);
+            } else if (userChoice == 2) {
+                delete(movieNum);
+            } else if (userChoice == 3) {
+                
             }
-        } else {
+        } 
 
             message = "> 해당 영화의 평점보러 갈까요? (Y / N)";
             String yesNo = ScannerUtil.nextLine(scanner, message);
@@ -116,7 +117,7 @@ public class MovieViewer {
 
         }
 
-    }
+    
 
     // 관리자 전용
     private void update(int movieNum) {
@@ -126,27 +127,14 @@ public class MovieViewer {
 
         message = "새로운 영화 제목을 입력해주세요.";
         m.setTitle(ScannerUtil.nextLine(scanner, message));
-//        String title =ScannerUtil.nextLine(scanner, message);
         message = "새로운 영화 줄거리를 입력해주세요.";
         m.setSummary(ScannerUtil.nextLine(scanner, message));
-//        String summary =ScannerUtil.nextLine(scanner, message);
         message = "새로운 영화 등급을 입력해주세요.";
         m.setRating(ScannerUtil.nextLine(scanner, message));
-//        String rating =ScannerUtil.nextLine(scanner, message);
-//
-//        message = "정말로 수정하시겠습니까? Y/N";
-//        String yesNo = ScannerUtil.nextLine(scanner, message);
 
+        
         movieController.update(m); // 업데이트가 안됨. 여기서 막힘.
-//        if (yesNo.equalsIgnoreCase("Y")) {
-//            MovieDTO m1 = new MovieDTO();
-//            m1.setTitle(title);
-//            m1.setSummary(summary);
-//            m1.setRating(rating);
-//            
-//            movieController.add(m1); // 수정 삭제가 안된다.. 
-//            movieController.update(m);
-//        }
+
 
         showMenu(); // ?? 이거 다시 확인하기
     }

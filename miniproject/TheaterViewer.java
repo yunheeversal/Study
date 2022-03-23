@@ -17,6 +17,9 @@ public class TheaterViewer {
     private Scanner scanner;
     private MovieUserViewer movieUserViewer;
     private MovieUserDTO logIn;
+    private ScreeningViewer screeningViewer;
+    private ScreeningController screeningController;
+    
 
     public TheaterViewer() {
         theaterController = new TheaterController();
@@ -52,16 +55,13 @@ public class TheaterViewer {
 
     // showIndex() 현재 상영중인 영화 목록을 상영정보뷰어랑 연동??
     public void showIndex() {
-        String message = "1.현재 상영중인 영화 보기 2. 극장 개별 보기 3. 메인화면으로 ";
+        String message = "1.극장 개별 보기 2. 뒤로가기 ";
         while (true) {
             int userChoice = ScannerUtil.nextInt(scanner, message, 1, 3);
             if (userChoice == 1) {
-                printList();
+               printAll();
             } else if (userChoice == 2) {
-                printAll();
-            } else if (userChoice == 3) {
-                System.out.println("사용해주셔서 감사합니다.");
-                break;
+                showMenu() ;
             }
         }
 
@@ -78,7 +78,7 @@ public class TheaterViewer {
 
             }
 
-            String message = "상세보기할 글의 번호나 뒤로 가실려면 0을 입력해주세요.";
+            String message = "상세보기할 극장의 번호나 뒤로 가실려면 0을 입력해주세요.";
             int userChoice = ScannerUtil.nextInt(scanner, message);
 
             while (userChoice != 0 && theaterController.selectOne(userChoice) == null) {
@@ -95,48 +95,55 @@ public class TheaterViewer {
 
     private void printOne(int screeningNum) {
         TheaterDTO t = theaterController.selectOne(screeningNum);
+        String message;
         System.out.println("극장번호: " + t.getTheaterNum());
         System.out.println("극장명: " + t.getTheaterName());
         System.out.println("극장 위치: " + t.getTheaterLocation());
         System.out.println("극장 번호: " + t.getTheaterTel());
 
-        String message;
-        int optionMin, optionMax; // 선택 가짓수를 변수로 일단 정한다.
+        if (logIn.getUserRank() == 3) {
+            message = "1. 수정 2. 삭제 3. 목록으로 가기";
 
-//        if (logIn.getUserRank() == 3) {
-//            message = "1. 수정 2. 삭제 3. 목록으로 가기";
-//            optionMin = 1;
-//            optionMax = 3;
-//
-//            int userChoice = ScannerUtil.nextInt(scanner, message, optionMin, optionMax);// 작성자가 아닐 경우 오직 3만
-//            if (userChoice == 1) {
-//                update(screeningNum);
-//            } else if (userChoice == 2) {
-//                delete(screeningNum);
-//            } else if (userChoice == 3) {
-//
-//            }
-//        }
+            int userChoice = ScannerUtil.nextInt(scanner, message);// 작성자가 아닐 경우 오직 3만
+            if (userChoice == 1) {
+                update(screeningNum);
+            } else if (userChoice == 2) {
+                delete(screeningNum);
+            } else if (userChoice == 3) {
+
+            }
+        }
+        
+        while (true) {
+            message = "1.현재 상영중인 영화 보기 2. 뒤로 가기 ";
+         int userChoice = ScannerUtil.nextInt(scanner, message, 1, 3);
+      
+          if (userChoice == 1) {
+              printAll();
+         } else if (userChoice == 2) {
+              showMenu();
+          
+          }
+      }
+        
 
     }
 
     // 현재 상영중인 영화 보기 printList()
     // 영화 제목을 써야 하는데.. movie에서 빌려 와야함 ㅠ
-    public void printList() {
+    public void printList(int screeningNum) {
         ArrayList<TheaterDTO> list = theaterController.selectAll();
 
         if (list.isEmpty()) {
             System.out.println("아직 상영중인 영화가 존재하지 않습니다.");
         } else {
-            for (TheaterDTO t : list) {
-//                    System.out.printf("%d. %s\n", 영화 번호 , 영화 제목 );
-            }
+            screeningViewer.printAll(screeningNum);
 
         }
 
     }
-    private void update(int screeningNum) {
-        TheaterDTO t = theaterController.selectOne(screeningNum);
+    private void update(int theater) {
+        TheaterDTO t = theaterController.selectOne(theater);
 
         String message;
 
@@ -158,13 +165,13 @@ public class TheaterViewer {
     }
 
     // 관리자 전용
-    private void delete(int screeningNum) {
-        String message = "해당 영화의 정보를 정말 삭제하시겠습니까? Y/N";
+    private void delete(int theater) {
+        String message = "해당 극장의 정보를 정말 삭제하시겠습니까? Y/N";
         String yesNo = ScannerUtil.nextLine(scanner, message);
 
         if (yesNo.equalsIgnoreCase("Y")) {
-            theaterController.delete(screeningNum);
-            printList();
+            theaterController.delete(theater);
+            printList(theater);
         } else {
             showMenu();
         }

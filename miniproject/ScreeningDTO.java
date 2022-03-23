@@ -4,7 +4,6 @@ import java.util.Calendar;
 import miniproject.TheaterDTO;
 
 public class ScreeningDTO {
-    private TheaterDTO  t;
    // 필드
     // 상영정보 번호
     private int screeningNum;
@@ -13,8 +12,17 @@ public class ScreeningDTO {
     // 극장 번호
     private int theaterNum;
     // 상영 시간 
-    private Calendar screeningDate;
-    
+    private String screeningDate;
+    // 상영 영화 제목
+    private String screeningTitle;
+
+ 
+    public String getScreeningTitle() {
+        return screeningTitle;
+    }
+    public void setScreeningTitle(String screeningTitle) {
+        this.screeningTitle = screeningTitle;
+    }
     public int getScreeningNum() {
         return screeningNum;
     }
@@ -33,11 +41,11 @@ public class ScreeningDTO {
     public void setTheaterNum(int theaterNum) {
         this.theaterNum = theaterNum;
     }
-    public Calendar getScreeningDate() {
+    public String getScreeningDate() {
         return screeningDate;
     }
-    public void setScreeningDate(Calendar screeningDate) {
-        this.screeningDate = screeningDate;
+    public void setScreeningDate(String date) {
+        this.screeningDate = date;
     }
     
     

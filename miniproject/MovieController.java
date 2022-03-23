@@ -61,8 +61,8 @@ public class MovieController {
     
     // 관리자 전용 :  update
     public void update(MovieDTO m) {
-        int index = list.indexOf(m);
-        list.set(index, m);
+        list.set(list.indexOf(m), m);
+        
     }
     // 관리자 전용 delete
     public void delete(int movieNum) {

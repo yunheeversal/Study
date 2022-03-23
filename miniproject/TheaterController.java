@@ -2,6 +2,7 @@ package miniproject;
 
 import java.util.ArrayList;
 
+
 import miniproject.TheaterDTO;
 // 기능 뭐 더 추가할 거 있는지 생각해보기
 
@@ -20,7 +21,7 @@ public class TheaterController {
             t.setTheaterNum(1);
             t.setTheaterLocation("평택");
             t.setTheaterName("A"+i+"극장");
-            t.setTheaterTel("031-1234"+i);
+            t.setTheaterTel("031-123-333"+i);
             add(t);
         }
         

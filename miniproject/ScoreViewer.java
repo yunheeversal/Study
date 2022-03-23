@@ -30,6 +30,7 @@ public class ScoreViewer {
     public ScoreViewer() {
         scoreController = new ScoreController();
         scanner = new Scanner(System.in);
+        
     }
 
     public void setMovieViewer(MovieViewer movieViewer) {
@@ -52,24 +53,21 @@ public class ScoreViewer {
     // 상세보기를 출력하는 printOne()
     public void printOne(int movieNum) {
         ScoreDTO s = scoreController.selectOne(movieNum);
-        MovieDTO m = movieController.selectOne(movieNum);
+       
 //        ArrayList<ScoreDTO> temp = scoreController.selectAll();
 
      // 영화별 전체 평점 보기
         System.out.println("전체 평점");
-        System.out.printf("%s - by \n", m.getMovieNum());
         System.out.printf("%s 점 \n", s.getMovieScore());
         System.out.printf("%s  \n", s.getMovieReview());
 
         // 영화별 평론가 평점 보기
         System.out.println("평론가 평점");
-        System.out.printf("%s - by \n", m.getMovieNum());
         System.out.printf("%s 점 \n", s.getMovieScore());
         System.out.printf("%s  \n", s.getMovieReview());
 
         // 영화별 일반 관람객 평점 보기
         System.out.println("일반 관람객 평점");
-        System.out.printf("%s - by \n", m.getMovieNum());
         System.out.printf("%s 점 \n", s.getMovieScore());
         System.out.printf("%s  \n", s.getMovieReview());
         
