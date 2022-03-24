@@ -19,19 +19,27 @@ public class ScreeningViewer {
     
     private MovieUserViewer movieUserViewer; 
     private MovieUserDTO logIn;
-    
+    private MovieViewer movieViewer;
+    private TheaterViewer theaterViewer;
+
     
     public ScreeningViewer() {
         scanner = new Scanner(System.in);
         screeningController = new ScreeningController();
+        movieViewer = new MovieViewer();
+        
     }
     // 로그인 정보를 위한 유저 뷰어    
+    public void setMovieViewer(MovieViewer movieViewer) {
+        this.movieViewer = movieViewer;
+    }
     public void setMovieUserViewer(MovieUserViewer movieUserViewer) {
         this.movieUserViewer = movieUserViewer;
     }
+    public void setTheaterViewer(TheaterViewer theaterViewer) {
+        this.theaterViewer = theaterViewer;
+    }
 
- 
-    
     
     public void setLogIn(MovieUserDTO m) {
         if (m != null) {
@@ -40,43 +48,10 @@ public class ScreeningViewer {
             logIn = null;
         }
     }
-    
-//    // showMenu()
-//    public void showMenu() {
-//        String message = "1. 상영정보 목록 2. 메인화면으로";
-//        while (true) {
-//            int userChoice = ScannerUtil.nextInt(scanner, message);
-//
-//            
-//            if (userChoice == 1) {
-//                showIndex();
-//            } else if (userChoice == 2) {
-//                movieUserViewer.showMenu();
-//                
-//              }
-//        }
-//        
-//    }
-//    
-    // showIndex()
-//    public void showIndex() {
-//        String message = "1.현재 상영중인 영화 보기 2. 뒤로 가기 ";
-//        while (true) {
-//            int userChoice = ScannerUtil.nextInt(scanner, message, 1, 3);
-//          
-//            if (userChoice == 1) {
-//                printAll();
-//            } else if (userChoice == 2) {
-//                showMenu();
-//            
-//            }
-//        }
-//        
-//    }
-    
+      
     // printAll()
-    public void printAll(int screeningNum) {
-        ArrayList<ScreeningDTO> temp = screeningController.selectAll(screeningNum);
+    public void printAll() {
+        ArrayList<ScreeningDTO> temp = screeningController.selectAll();
         MovieDTO m = new MovieDTO();
         
         if (temp == null) {
@@ -99,6 +74,34 @@ public class ScreeningViewer {
             }
             
         }
+  
+        
+    }
+    
+    public void printAll2() {
+        ArrayList<ScreeningDTO> temp = screeningController.selectAll();
+        
+        if (temp == null) {
+            System.out.println("등록된 영화 정보가 존재하지 않습니다.");
+        } else {
+            for (ScreeningDTO s : temp) {
+                System.out.printf("%d번. %s %s\n", s.getScreeningNum(), s.getScreeningTitle(),s.getScreeningDate() );// 영화 제목도 넣어야해
+            }
+         
+            String message = "상세보기할 영화의 번호나 뒤로 가실려면 0을 입력해주세요.";
+            int userChoice = ScannerUtil.nextInt(scanner, message);
+
+            while (userChoice != 0 && screeningController.selectOne(userChoice) == null) {
+                System.out.println("잘못 입력하셨습니다.");
+                userChoice = ScannerUtil.nextInt(scanner, message);
+            }
+
+            if (userChoice != 0) {
+                printOne2(userChoice);
+                
+            }
+            
+        }
         
         
         
@@ -106,7 +109,19 @@ public class ScreeningViewer {
     
  // 상영 영화 개별 보기  영화 제목 넣기.. ㅠ
     private void printOne(int screeningNum) {
-        ArrayList<ScreeningDTO> temp = screeningController.selectAll(screeningNum);
+        ArrayList<ScreeningDTO> temp = screeningController.selectAll();
+
+        ScreeningDTO s = screeningController.selectOne(screeningNum);
+        
+        System.out.println("상영 번호: "+ s.getScreeningNum());
+        System.out.println("상영 시간: "+ s.getScreeningDate());
+        System.out.println("제목: "+ s.getScreeningTitle());
+        printAll();
+        
+    }
+    
+    private void printOne2(int screeningNum) {
+        ArrayList<ScreeningDTO> temp = screeningController.selectAll();
 
         ScreeningDTO s = screeningController.selectOne(screeningNum);
         
@@ -114,16 +129,15 @@ public class ScreeningViewer {
         System.out.println("상영 시간: "+ s.getScreeningDate());
         System.out.println("제목: "+ s.getScreeningTitle());
         
-        
         // 관리자 전용 메뉴 
         int optionMin, optionMax; // 선택 가짓수를 변수로 일단 정한다.
-        if (logIn.getUserRank() == 3) {
+      
             String message = "1. 수정 2. 삭제 3. 목록으로 가기";
             optionMin = 1;
             optionMax = 3;
 
-            int userChoice1 = ScannerUtil.nextInt(scanner, message, optionMin, optionMax);// 작성자가 아닐 경우 오직 3만
-                                                                                         // 입력가능하게 만든것임.
+            int userChoice1 = ScannerUtil.nextInt(scanner, message, optionMin, optionMax);
+                                                                                         
             if (userChoice1 == 1) {
                 update(screeningNum);
             } else if (userChoice1 == 2) {
@@ -131,11 +145,11 @@ public class ScreeningViewer {
             } else if (userChoice1 == 3) {
                
             } 
-        }
-        System.out.println("권한이 없습니다.");
         
+            printAll2();
         
     }
+    
     
     // 관리자 전용 
     private void update(int screeningNum) {

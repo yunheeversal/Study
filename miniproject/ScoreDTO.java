@@ -10,8 +10,10 @@ public class ScoreDTO {
     private int movieNum;
     // 평점 (double) 로 !! 5점 만점이니까.
     private double movieScore;
+    private double movieScore2;
     // 평론 
     private String movieReview;
+    private String movieReview2;
     
     
     public int getScoreNum() {
@@ -45,7 +47,6 @@ public class ScoreDTO {
         this.movieReview = movieReview;
     }
 
-    
     // equals() 오버라이드 scoreNum이 동일한지 
     public boolean equlas(Object o) {
         if(o instanceof ScoreDTO) {

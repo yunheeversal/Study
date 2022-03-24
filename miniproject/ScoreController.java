@@ -57,7 +57,7 @@ public class ScoreController {
     
     
     public void update(ScoreDTO s) {
-        int index = list.indexOf(s);
+        int index = list.indexOf(s)+1; // 일단 +1 추가 
 
         list.set(index, s);
     }
@@ -66,7 +66,7 @@ public class ScoreController {
         ScoreDTO s = new ScoreDTO();
         s.setScoreNum(scoreNum);;
 
-        list.remove(scoreNum);
+        list.remove(s);
     }
 
     

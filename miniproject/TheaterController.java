@@ -18,7 +18,6 @@ public class TheaterController {
         
         for (int i = 1; i <= 4; i++) {
             TheaterDTO t = new TheaterDTO();
-            t.setTheaterNum(1);
             t.setTheaterLocation("평택");
             t.setTheaterName("A"+i+"극장");
             t.setTheaterTel("031-123-333"+i);
@@ -57,7 +56,7 @@ public class TheaterController {
     }
     
     public void update(TheaterDTO t) {
-        int index = list.indexOf(t);
+        int index = list.indexOf(t)+1; // 일단 +1 추가
 
         list.set(index, t);
     }
@@ -65,8 +64,8 @@ public class TheaterController {
     public void delete(int theaterNum) {
         TheaterDTO t = new TheaterDTO();
         t.setTheaterNum(theaterNum);
-
-        list.remove(theaterNum);
+        
+        list.remove(t);
     }
 
     

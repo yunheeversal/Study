@@ -31,13 +31,13 @@ public class ScreeningController {
                
     }
     // 목록을 뷰어로 보내주는 selectAll()
-    public ArrayList<ScreeningDTO> selectAll(int screeningNum) {
+    public ArrayList<ScreeningDTO> selectAll() {
         ArrayList<ScreeningDTO> temp = new ArrayList<>();
         
         for (ScreeningDTO s : list) {
-            if(s.getScreeningNum() == screeningNum) {
+           
                 temp.add(new ScreeningDTO(s));
-            }
+            
         }
 
         return temp;
@@ -63,7 +63,7 @@ public class ScreeningController {
     }
     // update
     public void update(ScreeningDTO s) {
-        int index = list.indexOf(s);
+        int index = list.indexOf(s)+1;// 일단 +1 추가
         list.set(index, s);
     }
 

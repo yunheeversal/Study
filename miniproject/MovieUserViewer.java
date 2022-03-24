@@ -25,7 +25,7 @@ public class MovieUserViewer {
     private MovieViewer movieViewer;
 
     private  TheaterViewer theaterViewer;
- 
+    private ScreeningViewer screeningViewer;
 
     public MovieUserViewer() {
         scanner = new Scanner(System.in);
@@ -33,8 +33,10 @@ public class MovieUserViewer {
         // 추후 연관된 뷰어 추가하려면 이렇게 ! replyViewer = new ReplyViewer();
         movieViewer = new MovieViewer();
         theaterViewer = new TheaterViewer();
+        screeningViewer = new ScreeningViewer();
         // 무비뷰어 - 유저 정보, 평점 같이 연결해서 볼 수 있게?
         movieViewer.setMovieUserViewer(this);
+        screeningViewer.setMovieUserViewer(this);
 //        movieViewer.setScoreViewer(scoreViewer);
         ;
         // 극장 뷰어
@@ -144,7 +146,6 @@ public class MovieUserViewer {
                 movieViewer.showMenu();
                 // 영화 목록 불러오기
             } else if (userChoice == 2) {
-               
                 theaterViewer.showMenu();
                 // 극장 목록 불러오기
             } else if (userChoice == 3) {
@@ -159,9 +160,10 @@ public class MovieUserViewer {
 
     }
 
-    public void printNickname(int id) {
-        MovieUserDTO m = userController.selectOne(id);
-        System.out.print(m.getNickname());
+    public int printRank(int userRank) {
+        MovieUserDTO m = userController.selectOne(userRank);
+        System.out.print(m.getUserRank());
+        return userRank;
     }
 
 }
