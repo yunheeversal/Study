@@ -77,11 +77,11 @@ public class MovieController {
     }
     // 관리자 전용 delete
     public void delete(int movieNum) {
-        MovieDTO m = new MovieDTO();
-        m.setMovieNum(movieNum);
-        list.remove(m);
+        MovieDTO temp = new MovieDTO();
+        temp.setMovieNum(movieNum);
         
-       
+        list.remove(temp);
+          
     }
     
     

@@ -26,10 +26,6 @@ public class MovieViewer {
     }
     // 다른 뷰어 연결
 
-    // 평점 뷰어
-//    public void setScoreViewer(ScoreViewer scoreViewer) {
-//        this.scoreViewer = scoreViewer;
-//    }
 
     // 로그인 정보를 위한 유저 뷰어
     public void setMovieUserViewer(MovieUserViewer movieUserViewer) {

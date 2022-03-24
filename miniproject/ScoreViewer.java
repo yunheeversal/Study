@@ -76,16 +76,8 @@ public class ScoreViewer {
 
         message = "평점을 등록 하시겠습니까? Y/N";
         String yesNo = ScannerUtil.nextLine(scanner, message);
-//        movieUserViewer.printRank(logIn.getUserRank());
         if (yesNo.equalsIgnoreCase("Y")) {
             writeScore(movieNum);
-//            if (logIn.getUserRank() == 2) {
-//                // 전문 평론가 평점 작성
-//                writeScore2();
-//            } else {
-//                // 일반 관람객 평점 작성
-//                writeScore();
-//            }
         }
 
     }
@@ -110,31 +102,5 @@ public class ScoreViewer {
         }
 
     }
-
-//    private void writeScore2() {
-//        ScoreDTO s = new ScoreDTO();
-//        ArrayList<MovieDTO> temp = movieController.selectAll();
-//
-//        String message;
-//        message = "1. 새 평점 등록 2. 뒤로가기";
-//        int userChoice = ScannerUtil.nextInt(scanner, message);
-//
-//        if (userChoice == 1) {
-//
-//            for (MovieDTO m1 : temp) {
-//                System.out.printf("%d번. 제목: %s\n", s.getMovieNum(), m1.getTitle());
-//            }
-//            message = "평점을 등록할 영화의 번호를 입력해주세요.";
-//            s.setMovieNum(ScannerUtil.nextInt(scanner, message));
-//            message = "평점을 입력해주세요.";
-//            s.setMovieScore(ScannerUtil.nextInt(scanner, message, SCORE_MIN, SCORE_MAX));
-//            message = "평론을 입력해주세요.";
-//            s.setMovieReview(ScannerUtil.nextLine(scanner, message));
-//
-//            scoreController.add(s);
-//
-//        }
-//
-//    }
 
 }

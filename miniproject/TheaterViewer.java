@@ -26,6 +26,7 @@ public class TheaterViewer {
         scanner = new Scanner(System.in);
         screeningViewer = new ScreeningViewer();
         screeningViewer.setTheaterViewer(this);
+
     }
 
     // 로그인 정보를 위한 유저 뷰어
@@ -43,16 +44,18 @@ public class TheaterViewer {
 
     // showMenu()
     public void showMenu() {
+        MovieUserViewer  movieUserViewer = new MovieUserViewer();
         String message = "1. 극장 목록 2. 메인 화면으로";
         
-        while (true) {
             int userChoice = ScannerUtil.nextInt(scanner, message);
 
             if (userChoice == 1) {
                 showIndex();
-            } 
-            
-        }
+            } else if(userChoice == 2){
+               
+
+            }
+        
 
     }
 
@@ -119,7 +122,7 @@ public class TheaterViewer {
             }
         }
         
-        while(true) {
+ 
             message = "1.현재 상영중인 영화 보기 2. 뒤로 가기 ";
          int userChoice = ScannerUtil.nextInt(scanner, message, 1, 3);
       
@@ -131,27 +134,13 @@ public class TheaterViewer {
                   screeningViewer.printAll();
               }
               
-         } else if (userChoice == 2) {
-              showMenu();
-          break;
-          }
-        }
+         } 
+         
+     
         
 
     }
 
-    // 현재 상영중인 영화 보기 printList()
-//    public void printList(int screeningNum) {
-//        ArrayList<TheaterDTO> list = theaterController.selectAll();
-//
-//        if (list.isEmpty()) {
-//            System.out.println("아직 상영중인 영화가 존재하지 않습니다.");
-//        } else {
-//            screeningViewer.printAll(screeningNum);
-//
-//        }
-
-//    }
     private void update(int theaterNum) {
         TheaterDTO t = theaterController.selectOne(theaterNum);
 

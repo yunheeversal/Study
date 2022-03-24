@@ -30,13 +30,11 @@ public class MovieUserViewer {
     public MovieUserViewer() {
         scanner = new Scanner(System.in);
         userController = new MovieUserController();
-        // 추후 연관된 뷰어 추가하려면 이렇게 ! replyViewer = new ReplyViewer();
         movieViewer = new MovieViewer();
         theaterViewer = new TheaterViewer();
-        screeningViewer = new ScreeningViewer();
         // 무비뷰어 - 유저 정보, 평점 같이 연결해서 볼 수 있게?
         movieViewer.setMovieUserViewer(this);
-        screeningViewer.setMovieUserViewer(this);
+        theaterViewer.setMovieUserViewer(this);
 //        movieViewer.setScoreViewer(scoreViewer);
         ;
         // 극장 뷰어

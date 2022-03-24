@@ -20,6 +20,7 @@ public class MovieUserController {
             m.setUsername("u" + i);
             m.setNickname("사용자" + i);
             m.setPassword("1");
+            m.setUserRank(3);
 
             add(m);
         }
