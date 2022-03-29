@@ -44,10 +44,10 @@ public class HotelRecordController {
     }
     
     // 방 취소할 때 같이 취소 되도록 만드는 메서드
-    public void deleteByTicketId(int RoomId) {
+    public void deleteByRoomId(int roomId) {
         for(int i = 0; i<list.size(); i++) {
             HotelRecordDTO h = list.get(i);
-            if(h.getRoomId()== RoomId) {
+            if(h.getRoomId()== roomId) {
                 list.remove(i);
                 i= -1;
             }

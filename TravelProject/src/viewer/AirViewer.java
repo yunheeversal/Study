@@ -3,20 +3,50 @@ package viewer;
 //항공권 번호, 출발지, 출발 시간, 도착지, 도착 시간, 좌석
 //단, 이미 예매가 완료된 항공권은 리스트에서 보이지 않습니다.
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 import controller.AirController;
 import model.UserDTO;
 import util.ScannerUtil;
 import model.AirDTO;
-import model.HotelDTO;
+import model.AirRecordDTO;
 
 public class AirViewer {
+    private HotelViewer hotelViewer; 
+    private AirViewer airViewer; 
+    private RentalCarViewer rentalCarViewer; 
+    private AirRecordViewer airRecordViewer;
+    private HotelRoomViewer hotelRoomViewer;
+    private HotelRecordViewer hotelRecordViewer;
+    private RentRecordViewer rentRecordViewer;
     private UserDTO logIn;
     private Scanner scanner;
     private UserViewer userViewer;
-    private AirRecordViewer  airRecordViewer;
     private AirController airController;
+
+    public AirViewer() {
+        airController = new AirController();
+    }
+    public void setHotelViewer(HotelViewer hotelViewer) {
+        this.hotelViewer = hotelViewer;
+    }
+    public void setRentalCarViewer(RentalCarViewer rentalCarViewer) {
+        this.rentalCarViewer = rentalCarViewer;
+    }
+
+    public void setHotelRoomViewer(HotelRoomViewer hotelRoomViewer) {
+        this.hotelRoomViewer = hotelRoomViewer;
+    }
+
+    public void setHotelRecordViewer(HotelRecordViewer hotelRecordViewer) {
+        this.hotelRecordViewer = hotelRecordViewer;
+    }
+
+    public void setRentRecordViewer(RentRecordViewer rentRecordViewer) {
+        this.rentRecordViewer = rentRecordViewer;
+    }
 
     public void setAirRecordViewer(AirRecordViewer airRecordViewer) {
         this.airRecordViewer = airRecordViewer;
@@ -35,14 +65,15 @@ public class AirViewer {
         this.logIn = logIn;
     }
     
+    // 메인메뉴
     public void showMenu() {
-        if (logIn.getCategory() == 1) {
-            showAdminMenu();
-        } else {
+        if (logIn.getCategory() == 3) {
             showGeneralMenu();
+        } else {
+            showAdminMenu();
         }
     }
-    
+    // 관리자, 여행사 전용 메뉴
     private void showAdminMenu() {
         String message = "1. 항공권 전체 목록 보기 2. 신규 항공권 등록 3. 뒤로 가기";
         while (true) {
@@ -57,7 +88,7 @@ public class AirViewer {
             }
         }
     }
-    
+    // 일반회원 전용 메뉴
     private void showGeneralMenu() {
         String message = "1. 항공권 전체 목록 보기 2. 뒤로 가기";
         while (true) {
@@ -118,11 +149,12 @@ public class AirViewer {
         AirDTO a = airController.selectOne(id);
 
         System.out.println("\n=======================================");
+        System.out.println("항공권 번호: " + a.getId());
         System.out.println("출발지: " + a.getDeparture());
         System.out.println("출발시간: " + a.getDepartureTime());
         System.out.println("도착지: " + a.getArrival());
         System.out.println("도착시간: " + a.getArrivalTime());
-        System.out.println("예약 가능 여부: " + a.getSeat().isEmpty()); //?? 맞나? ㅋㅋ
+//        System.out.println("예약 가능 여부: " + a.getSeat().isEmpty()); //?? 맞나? ㅋㅋ
         System.out.println("=======================================\n");
        
         if (logIn.getCategory() == 1) {
@@ -136,12 +168,16 @@ public class AirViewer {
                 printList();
             }
         } else {
-            String message = "1. 예매하기 2. 목록으로 돌아가기";
+            String message = "1. 예매하기 2. 예매 내역 확인 3. 목록으로 돌아가기";
             int userChoice = ScannerUtil.nextInt(scanner, message);
 
             if (userChoice == 1) {
-                // 예매 뷰어로 가서 예매 기록 남기게 하기.
+                booking();
+                
             } else if (userChoice == 2) {
+                airRecordViewer.showMenu();
+
+            }else if (userChoice == 3) {
                 printList();
             }
         }
@@ -197,6 +233,23 @@ public class AirViewer {
         }
 
         return userChoice;
+    }
+  
+    public int selectAirById(int id) {
+        return airController.selectOne(id).getId();
+    }
+    
+    
+    // 뭐 더 넣을거 없는지 확인해 보기... 
+    // 예약시 정보.. 하.. 어렵넹.. 다시 하기!!!
+    private void booking() {
+        AirDTO a = new AirDTO();
+        SimpleDateFormat sdf = new SimpleDateFormat("yy/m/d H:m");
+        String message;
+        message = "원하시는 좌석을 입력해 주세요. (A~D행, 1~90열)";
+        a.setSeat(ScannerUtil.nextLine(scanner, message));
+        
+        airController.add(a);
     }
     
 }

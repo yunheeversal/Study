@@ -70,5 +70,12 @@ public class RentRecordController {
             }
         }
     }
+    
+    public void delete(int id) {
+        RentRecordDTO r = new RentRecordDTO();
+        r.setId(id);
+
+        list.remove(r);
+    }
 
 }

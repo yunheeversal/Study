@@ -12,13 +12,42 @@ import model.HotelDTO;
 import model.RentalCarDTO;
 
 public class RentalCarViewer {
+    private HotelViewer hotelViewer; 
+    private AirViewer airViewer; 
+    private RentalCarViewer rentalCarViewer; 
+    private AirRecordViewer airRecordViewer;
+    private HotelRoomViewer hotelRoomViewer;
+    private HotelRecordViewer hotelRecordViewer;
+    private RentRecordViewer rentRecordViewer;
     private UserDTO logIn;
     private Scanner scanner;
     private UserViewer userViewer;
     private RentalCarController rentalCarController;
-    private RentRecordViewer rentRecordViewer;
 
+    public RentalCarViewer() {
+        rentalCarController = new RentalCarController();
+    }
     
+    public void setHotelViewer(HotelViewer hotelViewer) {
+        this.hotelViewer = hotelViewer;
+    }
+
+    public void setAirViewer(AirViewer airViewer) {
+        this.airViewer = airViewer;
+    }
+
+    public void setAirRecordViewer(AirRecordViewer airRecordViewer) {
+        this.airRecordViewer = airRecordViewer;
+    }
+
+    public void setHotelRoomViewer(HotelRoomViewer hotelRoomViewer) {
+        this.hotelRoomViewer = hotelRoomViewer;
+    }
+
+    public void setHotelRecordViewer(HotelRecordViewer hotelRecordViewer) {
+        this.hotelRecordViewer = hotelRecordViewer;
+    }
+
     public void setScanner(Scanner scanner) {
         this.scanner = scanner;
     }
@@ -50,7 +79,7 @@ public class RentalCarViewer {
             if (userChoice == 1) {
                 printList();
             } else if (userChoice == 2) {
-                insertHotel();
+                insertRetalCar();
             } else if (userChoice == 3) {
                 System.out.println("메인 화면으로 돌아갑니다.");
                 break;
@@ -71,7 +100,7 @@ public class RentalCarViewer {
         }
     }
     
-    private void insertHotel() {
+    private void insertRetalCar() {
         RentalCarDTO r = new RentalCarDTO();
 
         String message;
@@ -119,22 +148,23 @@ public class RentalCarViewer {
         System.out.println("=======================================\n");
        
         if (logIn.getCategory() == 1) {
-            String message = "1. 차량 수정 2. 차량 삭제 3. 목록으로 돌아가기";
+            String message = "1. 차량 수정 2. 차량 삭제 3. 예약 관리 4.목록으로 돌아가기";
             int userChoice = ScannerUtil.nextInt(scanner, message);
             if (userChoice == 1) {
                 updateCarInfo(id);
             } else if (userChoice == 2) {
                 deleteCarInfo(id);
             } else if (userChoice == 3) {
+                rentRecordViewer.showMenu();
+            }else if (userChoice == 4) {
                 printList();
             }
         } else {
-            String message = "1. 호텔 예약하기 2. 목록으로 돌아가기";
+            String message = "1. 렌터카 예약하기 2. 목록으로 돌아가기";
             int userChoice = ScannerUtil.nextInt(scanner, message);
 
             if (userChoice == 1) {
-                // 예약 뷰어로 가서 기록 남기게 하기.
-                // rentRecordRoomViewer.showMenu();
+                rentRecordViewer.showMenu();
             } else if (userChoice == 2) {
                 printList();
             }
@@ -164,7 +194,6 @@ public class RentalCarViewer {
 
         if (yesNo.equalsIgnoreCase("Y")) {
             rentalCarController.delete(id);
-//            hotelRecord.deleteShowByMovieid(id);  나중에 만들기 
             printList();
         } else {
             printOne(id);

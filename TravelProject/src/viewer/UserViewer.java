@@ -14,9 +14,29 @@ public class UserViewer {
     private HotelViewer hotelViewer; 
     private AirViewer airViewer; 
     private RentalCarViewer rentalCarViewer; 
+    private AirRecordViewer airRecordViewer;
+    private HotelRoomViewer hotelRoomViewer;
+    private HotelRecordViewer hotelRecordViewer;
+    private RentRecordViewer rentRecordViewer;
     private UserController userController;
     private UserDTO logIn;
     private Scanner scanner;
+
+    public void setAirRecordViewer(AirRecordViewer airRecordViewer) {
+        this.airRecordViewer = airRecordViewer;
+    }
+
+    public void setHotelRoomViewer(HotelRoomViewer hotelRoomViewer) {
+        this.hotelRoomViewer = hotelRoomViewer;
+    }
+
+    public void setHotelRecordViewer(HotelRecordViewer hotelRecordViewer) {
+        this.hotelRecordViewer = hotelRecordViewer;
+    }
+
+    public void setRentRecordViewer(RentRecordViewer rentRecordViewer) {
+        this.rentRecordViewer = rentRecordViewer;
+    }
 
     public void setHotelViewer(HotelViewer hotelViewer) {
         this.hotelViewer = hotelViewer;
@@ -73,17 +93,21 @@ public class UserViewer {
                 break;
             }
 
-            password = ScannerUtil.nextLine(scanner, password);
+            password = ScannerUtil.nextLine(scanner, passwordMsg);
         }
 
         logIn = userController.auth(username, password);
 
-//        if (logIn != null) {
-//            hotelViewer.setLogIn(logIn);
-//            airViewer.setLogIn(logIn);
-//            rentalCarViewer.setLogIn(logIn); 
-//  
-//        }
+        if (logIn != null) {
+            hotelViewer.setLogIn(logIn);
+            airViewer.setLogIn(logIn);
+            rentalCarViewer.setLogIn(logIn); 
+            airRecordViewer.setLogIn(logIn);
+            rentRecordViewer.setLogIn(logIn);
+            hotelRoomViewer.setLogIn(logIn);
+            hotelRecordViewer.setLogIn(logIn);
+  
+        }
     }
 
     
@@ -130,12 +154,11 @@ public class UserViewer {
             int userChoice = ScannerUtil.nextInt(scanner, message);
 
             if (userChoice == 1) {
-//                movieViewer.showMenu();
-             
+                airViewer.showMenu();
             } else if (userChoice == 2) {
-
+                rentalCarViewer.showMenu();
             } else if (userChoice == 3) {
-
+                hotelViewer.showMenu();
             } else if (userChoice == 4) {
                 showUserMenu();
             }else if (userChoice == 5) {

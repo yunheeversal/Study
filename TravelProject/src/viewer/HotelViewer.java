@@ -10,15 +10,41 @@ import util.ScannerUtil;
 import model.HotelDTO;
 import model.HotelRoomDTO;
 import controller.HotelController;
+import controller.HotelRecordController;
 
 public class HotelViewer {
+    private HotelViewer hotelViewer; 
+    private AirViewer airViewer; 
+    private RentalCarViewer rentalCarViewer; 
+    private AirRecordViewer airRecordViewer;
+    private HotelRoomViewer hotelRoomViewer;
+    private HotelRecordViewer hotelRecordViewer;
+    private RentRecordViewer rentRecordViewer;
     private UserDTO logIn;
     private Scanner scanner;
     private UserViewer userViewer;
-    private HotelRoomViewer hotelRoomViewer;
-    private HotelRecordViewer hotelRecordViewer;
     private HotelController hotelController;
     
+    public HotelViewer() {
+        hotelController = new HotelController();
+    }
+
+    public void setAirViewer(AirViewer airViewer) {
+        this.airViewer = airViewer;
+    }
+
+    public void setRentalCarViewer(RentalCarViewer rentalCarViewer) {
+        this.rentalCarViewer = rentalCarViewer;
+    }
+
+    public void setAirRecordViewer(AirRecordViewer airRecordViewer) {
+        this.airRecordViewer = airRecordViewer;
+    }
+
+    public void setRentRecordViewer(RentRecordViewer rentRecordViewer) {
+        this.rentRecordViewer = rentRecordViewer;
+    }
+
     public void setScanner(Scanner scanner) {
         this.scanner = scanner;
     }
@@ -127,13 +153,15 @@ public class HotelViewer {
         System.out.println("=======================================\n");
        
         if (logIn.getCategory() == 1) {
-            String message = "1. 호텔 수정 2. 호텔 삭제 3. 목록으로 돌아가기";
+            String message = "1. 호텔 수정 2. 호텔 삭제 3. 예약 관리 4. 목록으로 돌아가기";
             int userChoice = ScannerUtil.nextInt(scanner, message);
             if (userChoice == 1) {
                 updateHotelInfo(id);
             } else if (userChoice == 2) {
                 deleteHotelInfo(id);
             } else if (userChoice == 3) {
+                hotelRoomViewer.showMenu();
+            }else if (userChoice == 4) {
                 printList();
             }
         } else {
@@ -141,14 +169,17 @@ public class HotelViewer {
             int userChoice = ScannerUtil.nextInt(scanner, message);
 
             if (userChoice == 1) {
-                // 예매 뷰어로 가서 예매 기록 남기게 하기.
-                // hotelRoomViewer.showMenu();
+                // 예약 
+                hotelRoomViewer.showMenu();
             } else if (userChoice == 2) {
                 printList();
             }
         }
         
     }
+    
+    
+    
     
     private void updateHotelInfo(int id) {
         HotelDTO h = hotelController.selectOne(id);
@@ -174,17 +205,12 @@ public class HotelViewer {
 
         if (yesNo.equalsIgnoreCase("Y")) {
             hotelController.delete(id);
-//            hotelRecord.deleteShowByMovieid(id);  나중에 만들기 
+            hotelRoomViewer.deleteByHotelId(id);
             printList();
         } else {
             printOne(id);
         }
     }
-    
-    
-    
-    
-    
     
     
     

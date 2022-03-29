@@ -5,6 +5,7 @@ package controller;
 
 import java.util.ArrayList;
 
+import model.HotelDTO;
 import model.HotelRoomDTO;
 public class HotelRoomController {
     private ArrayList<HotelRoomDTO> list;
@@ -13,6 +14,15 @@ public class HotelRoomController {
     public HotelRoomController() {
         list = new ArrayList<>();
         nextId = 1;
+        for(int i = 0; i<=4;i++ ) {
+            HotelRoomDTO h  = new HotelRoomDTO();
+            h.setHotelId(i+1);
+            h.setRoomLocation(i+100);
+            h.setRoomPrice((i+1)*100000);
+            
+            add(h);
+        }
+        
     }
     
     public void add(HotelRoomDTO h) {
@@ -44,6 +54,14 @@ public class HotelRoomController {
         int index = list.indexOf(h);
         list.set(index, h);
     }
+    
+    public void delete(int id) {
+        HotelRoomDTO h = new HotelRoomDTO();
+        h.setId(id);
+
+        list.remove(h);
+    }
+    
     
     // 호텔 삭제?될 때 같이 취소 되도록 만드는 메서드
     public void deleteByHotelId(int hotelId) {

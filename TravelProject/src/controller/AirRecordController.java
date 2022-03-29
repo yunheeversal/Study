@@ -44,6 +44,13 @@ public class AirRecordController {
         list.set(index, a);
     }
     
+    public void delete(int id) {
+        AirRecordDTO a = new AirRecordDTO();
+        a.setId(id);
+
+        list.remove(a);
+    }
+    
     // 항공권 취소할 때 같이 취소 되도록 만드는 메서드
     public void deleteByTicketId(int ticketId) {
         for(int i = 0; i<list.size(); i++) {

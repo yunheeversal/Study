@@ -3,22 +3,52 @@ package viewer;
 import java.util.ArrayList;
 import java.util.Scanner;
 import model.HotelRecordDTO;
+import model.HotelRoomDTO;
 import model.UserDTO;
 import util.ScannerUtil;
 import controller.HotelRecordController;
+import controller.HotelRoomController;
 
 // 8. 방 예약 기록
 //방 예약 번호, 방 번호, 예약 시작일, 예약 종료일
 public class HotelRecordViewer {
-    
+    private HotelViewer hotelViewer; 
+    private AirViewer airViewer; 
+    private RentalCarViewer rentalCarViewer; 
+    private AirRecordViewer airRecordViewer;
+    private HotelRoomViewer hotelRoomViewer;
+    private HotelRecordViewer hotelRecordViewer;
+    private RentRecordViewer rentRecordViewer;
     private UserDTO logIn;
     private Scanner scanner;
     private UserViewer userViewer;
-    private HotelViewer hotelViewer;
-    private HotelRoomViewer hotelRoomViewer;
     private HotelRecordController hotelRecordCotroller;
 
+    public HotelRecordViewer() {
+        hotelRecordCotroller = new HotelRecordController();
+    }
     
+    
+    public void setAirViewer(AirViewer airViewer) {
+        this.airViewer = airViewer;
+    }
+
+    public void setRentalCarViewer(RentalCarViewer rentalCarViewer) {
+        this.rentalCarViewer = rentalCarViewer;
+    }
+
+    public void setAirRecordViewer(AirRecordViewer airRecordViewer) {
+        this.airRecordViewer = airRecordViewer;
+    }
+
+    public void setHotelRecordViewer(HotelRecordViewer hotelRecordViewer) {
+        this.hotelRecordViewer = hotelRecordViewer;
+    }
+
+    public void setRentRecordViewer(RentRecordViewer rentRecordViewer) {
+        this.rentRecordViewer = rentRecordViewer;
+    }
+
     public void setHotelViewer(HotelViewer hotelViewer) {
         this.hotelViewer = hotelViewer;
     }
@@ -43,7 +73,7 @@ public class HotelRecordViewer {
         if (logIn.getCategory() == 1) {
             showAdminMenu();
         } else {
-//            showGeneralMenu();
+            showGeneralMenu();
         }
     }
 
@@ -62,31 +92,28 @@ public class HotelRecordViewer {
             }
         }
     }
-// 
-//    private void showGeneralMenu() {
-//        HotelRecordDTO h = new HotelRecordDTO();
-//        String message = "1. 예약 목록 보기 2. 뒤로 가기";
-//        while (true) {
-//            int userChoice = ScannerUtil.nextInt(scanner, message);
-//
-//            if (userChoice == 1) {
-//                printOne();
-//            } else if (userChoice == 2) {
-//                System.out.println("뒤로 돌아갑니다.");
-//                break;
-//            }
-//
-//        }
-//    }
+ 
+    private void showGeneralMenu() {
+        String message = "1. 예약하기 2. 뒤로 가기";
+        while (true) {
+            int userChoice = ScannerUtil.nextInt(scanner, message);
+
+            if (userChoice == 1) {
+                add();
+            } else if (userChoice == 2) {
+                System.out.println("뒤로 돌아갑니다.");
+                break;
+            }
+
+        }
+    }
 
     private void printAll() {
         ArrayList<HotelRecordDTO> list = hotelRecordCotroller.selectAll();
 
         for (HotelRecordDTO h : list) {
             
-            System.out.printf("%d. ", h.getId());
-            System.out.print("호실: ");
-            hotelRoomViewer.printName(h.getRoomId());
+            System.out.printf("%d. \n", h.getId());
             System.out.printf("%s ~ %s \n", h.getBookStart(), h.getBookEnd());
         }
     }
@@ -102,8 +129,14 @@ public class HotelRecordViewer {
         h.setBookEnd(ScannerUtil.nextLine(scanner, message));
         
         hotelRecordCotroller.add(h);
+        System.out.println("예약이 완료 되었습니다.");
         
     }
     
+    public void deleteByRoomId(int roomId) {
+        hotelRecordCotroller.deleteByRoomId(roomId);
+        
+    }
+  
     
 }
