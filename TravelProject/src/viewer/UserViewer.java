@@ -323,5 +323,6 @@ public class UserViewer {
     public int selectCategoryById(int id) {
         return userController.selectOne(id).getCategory();
     }
+
     
 }

@@ -17,7 +17,6 @@ public class AirRecordController {
     
     public void add(AirRecordDTO a) {
         a.setId(nextId++);
-        a.setReservationDate(Calendar.getInstance());
         list.add(a);
     }
     
@@ -25,6 +24,7 @@ public class AirRecordController {
         ArrayList<AirRecordDTO> temp = new ArrayList<>();
         for(AirRecordDTO a : list) {
             temp.add(new AirRecordDTO(a));
+            
         }
         return temp;
     }

@@ -20,7 +20,7 @@ public class AirController {
             a.setArrivalTime((i + 9) + ":00 ~ " + (i + 11) + ":30");
             a.setDeparture("한국");
             a.setDepartureTime((i + 5) + ":00 ~ " + (i + 7) + ":30");
-            a.setSeat("A%d열\n"+i);
+            a.setSeat(-1+i);
             add(a);
         }
     }

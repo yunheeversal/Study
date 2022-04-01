@@ -7,10 +7,24 @@ public class RentRecordDTO {
     
     private int id; // 렌터카 대여 번호
     private int userId; // 회원 번호  - 유저 회원 번호
-    private int carId; // 렌터카 번호  - 렌터카와 동일 
+    private String carId; // 렌터카 번호  - 렌터카와 동일 
     private String rentStart; // 렌트 시작일 
     private String rentEnd; // 렌트 종료일
+    private int reservation; // 예약 유무 0,1 로 디폴트가 0, 예약 완료가 1
+    private int rentalCarId; 
     
+    public int getRentalCarId() {
+        return rentalCarId;
+    }
+    public void setRentalCarId(int rentalCarId) {
+        this.rentalCarId = rentalCarId;
+    }
+    public int getReservation() {
+        return reservation;
+    }
+    public void setReservation(int reservation) {
+        this.reservation = reservation;
+    }
     public int getId() {
         return id;
     }
@@ -23,10 +37,10 @@ public class RentRecordDTO {
     public void setUserId(int userId) {
         this.userId = userId;
     }
-    public int getCarId() {
+    public String getCarId() {
         return carId;
     }
-    public void setCarId(int carId) {
+    public void setCarId(String carId) {
         this.carId = carId;
     }
     public String getRentStart() {
@@ -59,6 +73,8 @@ public class RentRecordDTO {
        carId = r.carId; // 렌터카 번호  - 렌터카와 동일 
        rentStart = r.rentStart; // 렌트 시작일 
        rentEnd = r.rentEnd;
+       reservation = r.reservation;
+       rentalCarId = r.rentalCarId;
     }
     
     

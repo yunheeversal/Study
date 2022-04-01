@@ -5,9 +5,11 @@ package viewer;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Scanner;
 
 import controller.AirController;
+import controller.AirRecordController;
 import model.UserDTO;
 import util.ScannerUtil;
 import model.AirDTO;
@@ -25,9 +27,11 @@ public class AirViewer {
     private Scanner scanner;
     private UserViewer userViewer;
     private AirController airController;
+    private AirRecordController airRecordController;
 
     public AirViewer() {
         airController = new AirController();
+        airRecordController = new AirRecordController();
     }
     public void setHotelViewer(HotelViewer hotelViewer) {
         this.hotelViewer = hotelViewer;
@@ -73,21 +77,7 @@ public class AirViewer {
             showAdminMenu();
         }
     }
-    // 관리자, 여행사 전용 메뉴
-    private void showAdminMenu() {
-        String message = "1. 항공권 전체 목록 보기 2. 신규 항공권 등록 3. 뒤로 가기";
-        while (true) {
-            int userChoice = ScannerUtil.nextInt(scanner, message);
-            if (userChoice == 1) {
-                printList();
-            } else if (userChoice == 2) {
-                insertAir();
-            } else if (userChoice == 3) {
-                System.out.println("메인 화면으로 돌아갑니다.");
-                break;
-            }
-        }
-    }
+
     // 일반회원 전용 메뉴
     private void showGeneralMenu() {
         String message = "1. 항공권 전체 목록 보기 2. 뒤로 가기";
@@ -102,6 +92,21 @@ public class AirViewer {
         }
     }
     
+    // 관리자, 여행사 전용 메뉴
+    private void showAdminMenu() {
+        String message = "1. 항공권 전체 목록 보기 2. 신규 항공권 등록 3. 뒤로 가기";
+        while (true) {
+            int userChoice = ScannerUtil.nextInt(scanner, message);
+            if (userChoice == 1) {
+                printListAdmin();
+            } else if (userChoice == 2) {
+                insertAir();
+            } else if (userChoice == 3) {
+                System.out.println("메인 화면으로 돌아갑니다.");
+                break;
+            }
+        }
+    }
     private void insertAir() {
         AirDTO a = new AirDTO();
 
@@ -122,16 +127,13 @@ public class AirViewer {
     
     // 예매 완료된 항공권은 숨기는 기능 만들기 
     
-    private void printList() {
+    private void printListAdmin() {
         ArrayList<AirDTO> list = airController.selectAll();
 
-        if (list.isEmpty()) {
-            System.out.println("아직 등록된 항공권이 없습니다.");
-        } else {
             for (AirDTO a : list) {
                 System.out.printf("%d. 출발지: %s ~  도착지: %s\n", a.getId() ,a.getDeparture(), a.getArrival());
-            }
-
+                }
+               
             String message = "상세보기할 항공권의 번호나 뒤로가실려면 0을 입력해주세요.";
             int userChoice = ScannerUtil.nextInt(scanner, message);
 
@@ -144,7 +146,37 @@ public class AirViewer {
                 printOne(userChoice);
             }
         }
-    }
+    
+    private void printList() {
+        ArrayList<AirDTO> list = airController.selectAll();
+
+        if (list.isEmpty()) {
+            System.out.println("아직 등록된 항공권이 없습니다.");
+        } else {
+            for (AirDTO a : list) {
+                if (a.getSeat()> 0) { 
+                System.out.printf("%d. 출발지: %s ~  도착지: %s\n", a.getId() ,a.getDeparture(), a.getArrival());
+                } else if(!(a.getSeat()== 0)) {
+                    System.out.println("아직 등록된 항공권이 없습니다.");
+                }
+                
+                }
+
+        }
+               
+            String message = "상세보기할 항공권의 번호나 뒤로가실려면 0을 입력해주세요.";
+            int userChoice = ScannerUtil.nextInt(scanner, message);
+
+            while (userChoice != 0 && airController.selectOne(userChoice) == null) {
+                System.out.println("잘못 입력하셨습니다.");
+                userChoice = ScannerUtil.nextInt(scanner, message);
+            }
+
+            if (userChoice != 0) {
+                printOne(userChoice);
+            }
+        }
+    
     private void printOne(int id) {
         AirDTO a = airController.selectOne(id);
 
@@ -154,10 +186,20 @@ public class AirViewer {
         System.out.println("출발시간: " + a.getDepartureTime());
         System.out.println("도착지: " + a.getArrival());
         System.out.println("도착시간: " + a.getArrivalTime());
-//        System.out.println("예약 가능 여부: " + a.getSeat().isEmpty()); //?? 맞나? ㅋㅋ
         System.out.println("=======================================\n");
        
-        if (logIn.getCategory() == 1) {
+        if (logIn.getCategory() == 3) {
+            String message = "1. 예매하기 2. 목록으로 돌아가기";
+            int userChoice = ScannerUtil.nextInt(scanner, message);
+
+            if (userChoice == 1) {
+                airRecordViewer.showMenu();
+
+            }else if (userChoice == 3) {
+                printList();
+            }
+            
+        } else {
             String message = "1. 항공권 수정 2. 항공권 삭제 3. 목록으로 돌아가기";
             int userChoice = ScannerUtil.nextInt(scanner, message);
             if (userChoice == 1) {
@@ -167,19 +209,7 @@ public class AirViewer {
             } else if (userChoice == 3) {
                 printList();
             }
-        } else {
-            String message = "1. 예매하기 2. 예매 내역 확인 3. 목록으로 돌아가기";
-            int userChoice = ScannerUtil.nextInt(scanner, message);
-
-            if (userChoice == 1) {
-                booking();
-                
-            } else if (userChoice == 2) {
-                airRecordViewer.showMenu();
-
-            }else if (userChoice == 3) {
-                printList();
-            }
+            
         }
         
     }
@@ -235,21 +265,29 @@ public class AirViewer {
         return userChoice;
     }
   
-    public int selectAirById(int id) {
-        return airController.selectOne(id).getId();
+    public int selectAirBySeat(int id) {
+        return airController.selectOne(id).getSeat();
     }
     
-    
-    // 뭐 더 넣을거 없는지 확인해 보기... 
-    // 예약시 정보.. 하.. 어렵넹.. 다시 하기!!!
-    private void booking() {
+    // 뭐 더 넣을거 없는지 확인해 보기...
+    public void booking() {
         AirDTO a = new AirDTO();
+        AirRecordDTO a2 = new AirRecordDTO();
         SimpleDateFormat sdf = new SimpleDateFormat("yy/m/d H:m");
+        Calendar cal = Calendar.getInstance();
         String message;
-        message = "원하시는 좌석을 입력해 주세요. (A~D행, 1~90열)";
-        a.setSeat(ScannerUtil.nextLine(scanner, message));
         
+        message = "예약하시려는 항공권 번호를 입력해 주세요.";
+        a.setId(ScannerUtil.nextInt(scanner, message));
+        message = "원하시는 좌석을 입력해 주세요. (1~100)";
+        a.setSeat(ScannerUtil.nextInt(scanner, message));
+        a2.setReservationDate(sdf.format(cal.getTime()));
+        a2.setUserId(logIn.getId());
+        a2.setId(a.getId());
         airController.add(a);
+        airRecordController.add(a2);
+        
     }
+
     
 }

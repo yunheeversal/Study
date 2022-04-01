@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import model.AirRecordDTO;
 import model.HotelRecordDTO;
 // 8. 방 예약 기록
 //방 예약 번호, 방 번호, 예약 시작일, 예약 종료일
@@ -41,6 +42,13 @@ public class HotelRecordController {
     public void update(HotelRecordDTO h) {
         int index = list.indexOf(h);
         list.set(index, h);
+    }
+    
+    public void delete(int id) {
+        HotelRecordDTO h = new HotelRecordDTO();
+        h.setId(id);
+
+        list.remove(h);
     }
     
     // 방 취소할 때 같이 취소 되도록 만드는 메서드

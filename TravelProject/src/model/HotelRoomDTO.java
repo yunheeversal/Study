@@ -8,6 +8,15 @@ public class HotelRoomDTO {
     private int hotelId; // 호텔 번호
     private int roomLocation; // 방 위치 (int로 하고 나중에 "호" 붙이는 방법으로)
     private int roomPrice; // 가격
+    private boolean reservation; // 예약 유무
+
+    public boolean isReservation() {
+        return reservation;
+    }
+
+    public void setReservation(boolean reservation) {
+        this.reservation = reservation;
+    }
 
     public int getId() {
         return id;
@@ -58,6 +67,7 @@ public class HotelRoomDTO {
         hotelId = h.hotelId; 
         roomLocation = h.roomLocation;
         roomPrice = h.roomPrice;
+        reservation = h.reservation;
     }
 
 }

@@ -17,7 +17,7 @@ public class RentalCarController {
         nextId = 1;
         for (int i = 1; i <= 4; i++) {
             RentalCarDTO r = new RentalCarDTO();
-            r.setCarId("허12345");
+            r.setCarId("허"+(i+1)*12345);
             r.setCarModel("벤츠 S" + i);
             r.setCarColor("검정");
 
@@ -32,6 +32,8 @@ public class RentalCarController {
         }
         return temp;
     }
+    
+    
 
     public void add(RentalCarDTO r) {
         r.setId(nextId++);

@@ -19,7 +19,7 @@ public class HotelRoomController {
             h.setHotelId(i+1);
             h.setRoomLocation(i+100);
             h.setRoomPrice((i+1)*100000);
-            
+            h.setReservation(false);
             add(h);
         }
         

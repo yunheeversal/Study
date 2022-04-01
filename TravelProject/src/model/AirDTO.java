@@ -9,7 +9,7 @@ public class AirDTO {
     private String departureTime;// 출발 시간
     private String arrival; // 도착지
     private String arrivalTime; // 도착 시간
-    private String seat; // 좌선 A1, A2 이런식이니까 일단 String으로 ! 
+    private int seat; // int로 변경!!
     
     
     public int getId() {
@@ -42,10 +42,10 @@ public class AirDTO {
     public void setArrivalTime(String arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
-    public String getSeat() {
+    public int getSeat() {
         return seat;
     }
-    public void setSeat(String seat) {
+    public void setSeat(int seat) {
         this.seat = seat;
     }
     

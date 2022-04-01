@@ -8,7 +8,14 @@ public class RentalCarDTO {
     private String carId; // 차량 등록 번호
     private String carModel; // 차종
     private String carColor; // 색깔
+    private int reservation; // 예약 유무
     
+    public int getReservation() {
+        return reservation;
+    }
+    public void setReservation(int reservation) {
+        this.reservation = reservation;
+    }
     public int getId() {
         return id;
     }
@@ -50,6 +57,7 @@ public class RentalCarDTO {
         carId = r.carId; // 차량 등록 번호
         carModel = r.carModel; // 차종
        carColor = r.carColor; // 색깔
+       reservation = r.reservation;
     }
     
     

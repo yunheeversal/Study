@@ -8,6 +8,15 @@ public class HotelRecordDTO {
     private String bookStart; // 예약 시작일
     private String bookEnd; // 예약 종료일
     private int userId; // 회원 번호
+    private boolean reservation; // 예약 유무
+
+    public boolean isReservation() {
+        return reservation;
+    }
+
+    public void setReservation(boolean reservation) {
+        this.reservation = reservation;
+    }
 
     public int getUserId() {
         return userId;
@@ -59,6 +68,7 @@ public class HotelRecordDTO {
         bookStart = h.bookStart;
         bookEnd = h.bookEnd;
         userId = h.userId;
+        reservation = h.reservation;
     }
 
 }

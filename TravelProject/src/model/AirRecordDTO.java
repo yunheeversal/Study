@@ -4,13 +4,12 @@ package model;
 //예매 번호, 항공권 번호, 예매 회원 번호, 예매일
 // 항공권과 연결 !!
 
-import java.util.Calendar;
 
 public class AirRecordDTO {
     private int id; // 예매 번호
     private int ticketId; // 항공권 번호
     private int userId; // 회원 번호
-    private Calendar reservationDate; // 예매일
+    private String reservationDate; // 예매일
 
     public int getId() {
         return id;
@@ -36,11 +35,11 @@ public class AirRecordDTO {
         this.userId = userId;
     }
 
-    public Calendar getReservationDate() {
+    public String getReservationDate() {
         return reservationDate;
     }
 
-    public void setReservationDate(Calendar reservationDate) {
+    public void setReservationDate(String reservationDate) {
         this.reservationDate = reservationDate;
     }
     
@@ -60,8 +59,7 @@ public class AirRecordDTO {
         id= a.id;
         ticketId = a.ticketId;
         userId = a.userId;
-        reservationDate = Calendar.getInstance();
-        reservationDate.setTime(a.reservationDate.getTime());
+        reservationDate =a.reservationDate;
     }
 
 }

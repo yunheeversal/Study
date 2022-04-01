@@ -22,6 +22,7 @@ public class RentRecordController {
         list.add(r);
     }
 
+   
     public ArrayList<RentRecordDTO> selectAll() {
         ArrayList<RentRecordDTO> temp = new ArrayList<>();
         for (RentRecordDTO r : list) {
@@ -41,7 +42,14 @@ public class RentRecordController {
     
     // 아직 반납이 안된 렌터카들의 목록 (관리자, 여행자 직원)
 
-    
+//    public RentRecordDTO selectList() {
+//        for (RentRecordDTO r : list) {
+//            if (r.getReservation() == 1) {
+//                return new RentRecordDTO(r);
+//            }
+//        }
+//        return null;
+//    }
     
     
     public void update(RentRecordDTO r) {
@@ -50,10 +58,10 @@ public class RentRecordController {
     }
 
     // 차량 삭제될 때 같이 취소 되도록 만드는 메서드
-    public void deleteByCarId(int carId) {
+    public void deleteByCarId(String carId) {
         for (int i = 0; i < list.size(); i++) {
             RentRecordDTO r = list.get(i);
-            if (r.getCarId() == carId) {
+            if (r.getCarId().equalsIgnoreCase(carId)) {
                 list.remove(i);
                 i = -1;
             }
