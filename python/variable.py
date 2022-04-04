@@ -12,5 +12,13 @@ apples = "사과들"
 apple3 = "사과 3개"
 app3le = "사3과"
 red_apple = "빨간 사과"
-
+very_delicious_red_apple = "아주 맛있는 빨간 사과"
 print (red_apple)
+
+#잘못된 예
+
+# 3apple = "3개의 사과"
+# red apple = "빨간사과"
+# apple! = "사과!"
+# apple$ = "사과$"
+# apple& = "사과&"
