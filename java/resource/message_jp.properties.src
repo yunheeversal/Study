@@ -1,0 +1,8 @@
+LOGMSG = ログインしてセッションを開始します
+EMAIL =  メールアドレス
+PASSWORD =  パスワード
+REMEMBERME = ID保存
+SIGNIN = ログイン
+OR = -また-
+FORGOT = ログインできない場合
+REGISTER = IDを新しく取得する

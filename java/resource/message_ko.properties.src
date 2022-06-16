@@ -1,0 +1,8 @@
+LOGMSG = 세션을 시작하려면 로그인을 하세요.
+EMAIL =  이메일
+PASSWORD =  패스워드
+REMEMBERME = 아이디 저장
+SIGNIN = 로그인
+OR = 또는
+FORGOT = 비밀번호 찾기
+REGISTER = 회원가입 
