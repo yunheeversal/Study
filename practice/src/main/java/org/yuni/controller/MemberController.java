@@ -77,8 +77,8 @@ public class MemberController {
 		public String modify(MemberVO vo, RedirectAttributes rttr) throws Exception {
 			service.update(vo);
 			rttr.addFlashAttribute("vo", vo);
-			
-			return "redirect:/member/loginPost";
+			 // 이부분이 잘 해결이 안됨 ㅠㅠㅠ 왜 안될
+			return "redirect:/member/login"; // 리다이렉트할 곳 다시 설정하기 
 		}
 
 		@RequestMapping(value = "/register", method = RequestMethod.GET)

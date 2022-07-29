@@ -2,12 +2,18 @@
 <!DOCTYPE configuration
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
-<configuration>
 
-  <typeAliases>
-    <package name="org.yuni.domain"/>    
-  </typeAliases>
+<configuration>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+
+	<typeAliases>
+		<package name="org.yuni.domain" />
+	</typeAliases>
 
 
 </configuration>
+  
+
 

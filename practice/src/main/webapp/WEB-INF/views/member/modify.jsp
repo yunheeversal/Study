@@ -45,49 +45,62 @@
 				<!-- div 추가 -->
 				<div class="padding-top-large" style="padding-top: 30px">
 					<h2 class="edufair-main-title" style="text-align: left">회원 정보</h2>
-					<table class="type1">
-						<tr>
-							<th>회원ID</th>
-							<td>${vo.userId}</td>
-						</tr>
-						<tr>
-							<th>이메일</th>
-							<td>${vo.userEmail}</td>
-						</tr>
-						<tr>
-							<th>닉네임</th>
-							<td>${vo.userName}</td>
-						</tr>
-						<tr>
-							<th>전화번호</th>
-							<td>${vo.phone}</td>
-						</tr>
-						<tr>
-							<th>성별</th>
-							<td>${vo.gender}</td>
-						</tr>
-						<tr>
-							<th>주소</th>
-							<td>${vo.address}</td>
-						</tr>
-						<tr>
-							<th>가입일자</th>
-							<td>${vo.regDate}</td>
-						</tr>
+					<form action="/member/modify" method="post">
+						<input type="hidden" name="userId" value="${vo.userId}">
+						<input type="hidden" name="gender" value="${vo.gender}">
+						<input type="hidden" name="userRank" value="${vo.userRank}">
+						<table class="type1">
+							<tr>
+								<th>회원ID</th>
+								<td>${vo.userId}</td>
+							</tr>
+							<tr>
+								<th>이메일</th>
+								<td width="65%"><input type="text" name="userEmail"
+									pattern="^([\w\.\_\-])*[a-zA-Z0-9]+([\w\.\_\-])*([a-zA-Z0-9])+([\w\.\_\-])+@([a-zA-Z0-9]+\.)+[a-zA-Z0-9]{2,8}$"
+									size="40" value="${vo.userEmail}" required /></td>
+							</tr>
+							<tr>
+								<th>닉네임</th>
+								<td><input type="text" name="userName" size="40"
+									value="${vo.userName}" /></td>
+							</tr>
+							<tr>
+								<th>전화번호</th>
+								<td><input type="text" name="phone" size="40"
+									pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" value="${vo.phone}" /></td>
+							</tr>
+							<tr>
+								<th>성별</th>
+								
+								<td>${vo.gender}</td>
+							</tr>
+							<tr>
+								<th>주소</th>
+								<td><input type="text" name="address" size="40"
+									value="${vo.address}" /></td>
+							</tr>
+							<tr>
+								<th>가입일자</th>
+								<td>${vo.regDate}</td>
+							</tr>
 
-						<tr>
-							<th>SMS 수신여부</th>
-							<td>${vo.sms}</td>
-						</tr>
+								<div class="form-group">
+									<label for="sms">SMS 수신 </label> <label class="radio-inline">
+										<input type="radio" name="sms" value="Y" checked> 동의
+									</label> <label class="radio-inline"> <input type="radio"
+										name="sms" value="N"> 비동의
+									</label>
+								</div>
 
-						<tr>
-							<th>회원등급</th>
-							<td>${vo.userRank}</td>
-						</tr>
-						<!-- 비밀번호 변경 버튼 추가 -->
-						<!--  버튼 class="btn btn-transparent" style="color: #fff" 
+							<tr>
+								<th>회원등급</th>
+								<td>${vo.userRank}</td>
+							</tr>
+							<!-- 비밀번호 변경 버튼 추가 -->
+							<!--  버튼 class="btn btn-transparent" style="color: #fff" 
 						 ->class="edufair-component-button button-large" style="border:solid 1px #eaeaea;" 변경 -->
-						<%-- <tr>
+							<%-- <tr>
 							<th>비밀번호 변경</th>
 							<td><button class="edufair-component-button button-large"
 									style="border: solid 1px #eaeaea;" type="button"
@@ -116,11 +129,12 @@
 									ID 확인</button></td>
 						</tr> --%>
 
-					</table>
-					<button class="edufair-component-button button-large" type="submit">회원
-						정보 수정</button>
-					<button class="edufair-component-button button-large" type="button"
-						onclick="location.href='/home'">홈으로</button>
+						</table>
+						<button class="edufair-component-button button-large"
+							type="submit">저장</button>
+						<button class="edufair-component-button button-large"
+							type="button" onclick="location.href='/home'">홈으로</button>
+					</form>
 				</div>
 			</div>
 		</div>

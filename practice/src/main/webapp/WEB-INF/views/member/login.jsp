@@ -24,6 +24,12 @@
 </div>
 
 <div class="edufair-subscription-form-1x">
+	<div class="container">
+		<div class="row">
+			<div class="padding-top-large" style="padding-top: 30px"></div>
+		</div>
+		<div>
+
 	<form action="/member/loginPost" method="post">
 		<div class="col-md-12">
 			<div class="form-group">
@@ -55,6 +61,8 @@
 			<a href="/member/register" class=""> 회원가입 </a> | <a href="#" class=""> 비밀번호 찾기 </a>
 		</p>
 	</div>
+</div>
+</div>
 </div>
 
 <!-- jQuery 2.1.4 -->
