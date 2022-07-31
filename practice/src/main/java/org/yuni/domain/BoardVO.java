@@ -1,28 +1,44 @@
 package org.yuni.domain;
 
+import java.util.Arrays;
 import java.util.Date;
 
-
-
-
 public class BoardVO {
-	private Integer num;
-	private String name;
+	
+	private Integer bno;
 	private String title;
-	private String content;
-	private Integer readCount;
-	private Date writeDate;
-	public Integer getNum() {
-		return num;
+	private String bcontent;
+	private String writer;
+	private Date regdate;
+	private int viewcnt;
+	private int replycnt;
+	
+	private String[] files;
+	
+		
+	public String getBcontent() {
+		return bcontent;
 	}
-	public void setNum(Integer num) {
-		this.num = num;
+	public void setBcontent(String bcontent) {
+		this.bcontent = bcontent;
 	}
-	public String getName() {
-		return name;
+	public String[] getFiles() {
+		return files;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setFiles(String[] files) {
+		this.files = files;
+	}
+	public int getReplycnt() {
+		return replycnt;
+	}
+	public void setReplycnt(int replycnt) {
+		this.replycnt = replycnt;
+	}
+	public Integer getBno() {
+		return bno;
+	}
+	public void setBno(Integer bno) {
+		this.bno = bno;
 	}
 	public String getTitle() {
 		return title;
@@ -30,28 +46,32 @@ public class BoardVO {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getContent() {
-		return content;
+	public String getWriter() {
+		return writer;
 	}
-	public void setContent(String content) {
-		this.content = content;
+	public void setWriter(String writer) {
+		this.writer = writer;
 	}
-	public Integer getReadCount() {
-		return readCount;
+	public Date getRegdate() {
+		return regdate;
 	}
-	public void setReadCount(Integer readCount) {
-		this.readCount = readCount;
+	public void setRegdate(Date regdate) {
+		this.regdate = regdate;
 	}
-	public Date getWriteDate() {
-		return writeDate;
+	public int getViewcnt() {
+		return viewcnt;
 	}
-	public void setWriteDate(Date writeDate) {
-		this.writeDate = writeDate;
+	public void setViewcnt(int viewcnt) {
+		this.viewcnt = viewcnt;
 	}
+
 	@Override
 	public String toString() {
-		return "BoardVO [num=" + num + ", name=" + name + ", title=" + title + ", content=" + content + ", readCount="
-				+ readCount + ", writeDate=" + writeDate + "]";
+		return "BoardVO [bno=" + bno + ", title=" + title + ", bcontent="
+				+ bcontent + ", writer=" + writer + ", regdate=" + regdate
+				+ ", viewcnt=" + viewcnt + ", replycnt=" + replycnt
+				+ ", files=" + Arrays.toString(files) + "]";
 	}
+	
 
 }

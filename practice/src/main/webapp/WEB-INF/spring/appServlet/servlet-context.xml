@@ -22,8 +22,8 @@
 	</beans:bean>
 	
 	<!-- 얘를 기준으로 설정을 만든다.  -->
-	<context:component-scan base-package="org.yuni.controller" />
-	
+<!-- 	<context:component-scan base-package="org.yuni.*" /> -->
+		 <context:component-scan base-package="org.yuni.controller" /> 
 	
 	
 </beans:beans>

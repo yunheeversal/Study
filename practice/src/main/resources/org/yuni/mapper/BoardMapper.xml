@@ -6,26 +6,202 @@
 
 	<!-- id 속성은 DAO 의 메소드와 같아야 한다. 여기의 boardVO 는 mybatis-confg.xml 에 Alias 되어 
 		있습니다. -->
-	<select id="selectBoardList" resultType="org.yuni.domain.BoardVO">
-		SELECT NUM
-		, NAME
-		, TITLE
-		, CONTENT
-		, READCOUNT
-		, WRITEDATE
-		FROM BOARD
-		ORDER BY NUM DESC
+
+
+	<insert id="create">
+		insert into tbl_board (title, bcontent, writer)
+		values(#{title},#{bcontent}, #{writer})
+	</insert>
+
+	<select id="read" resultType="org.yuni.domain.BoardVO">
+		select
+		bno, title, bcontent, writer,
+		regdate, viewcnt , replycnt
+		from
+		tbl_board
+		where bno = #{bno}
 	</select>
-	
-	<select id="selectBoardList2" resultType="org.yuni.domain.BoardVO">
-		SELECT NUM
-		, NAME
-		, TITLE
-		, CONTENT
-		, READCOUNT
-		, WRITEDATE
-		FROM BOARD
-		WHERE NUM=2
-		ORDER BY NUM DESC
+
+	<select id="listAll" resultType="org.yuni.domain.BoardVO">
+ <![CDATA[
+ select 
+   bno, title, bcontent, writer, regdate, viewcnt 
+ from 
+   tbl_board 
+ where bno > 0 
+ order by bno desc, regdate desc
+ ]]>
 	</select>
+
+	<select id="listPage" resultType="org.yuni.domain.BoardVO">
+ <![CDATA[
+ select * from (select 
+   bno, title, content, writer, regdate, viewcnt , replycnt
+ from 
+   tbl_board 
+ where bno > 0 
+ order by bno desc, regdate desc
+) where rownum <= #{page}, 10
+ ]]>
+	</select>
+
+	<select id="listCriteria" resultType="org.yuni.domain.BoardVO">
+ <![CDATA[
+  select * from (select 
+   bno, title, content, writer, regdate, viewcnt , replycnt
+ from 
+   tbl_board 
+ where bno > 0 
+ order by bno desc, regdate desc
+) where rownum <= #{pageStart},#{perPageNum}
+ 
+ ]]>
+	</select>
+
+
+	<update id="update">
+		update tbl_board set title =#{title}, bcontent
+		=#{bcontent}
+		where bno = #{bno}
+	</update>
+
+	<delete id="delete">
+		delete from tbl_board where bno = #{bno}
+	</delete>
+
+
+
+	<select id="countPaging" resultType="int">
+ <![CDATA[
+ select 
+   count(bno) 
+ from 
+   tbl_board 
+ where 
+   bno > 0 
+ ]]>
+	</select>
+
+
+
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">
+				<!-- and title like CONCAT('%', #{keyword}, '%') -->
+				and title like '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType == 'c'.toString()">
+				<!-- and bcontent like CONCAT('%', #{keyword}, '%') -->
+				and bcontent like '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType == 'w'.toString()">
+				<!-- and writer like CONCAT('%', #{keyword}, '%') -->
+				and writer like '%' || #{keyword} || '%'
+				
+			</if>
+			<if test="searchType == 'tc'.toString()">
+				<!-- and ( title like CONCAT('%', #{keyword}, '%') OR bcontent
+				like
+				CONCAT('%', #{keyword}, '%')) -->
+				and ( title like '%' || #{keyword} || '%' OR bcontent
+				like
+				'%' || #{keyword} || '%')
+			</if>
+			<if test="searchType == 'cw'.toString()">
+				<!-- and ( bcontent like CONCAT('%', #{keyword}, '%') OR
+				writer
+				like
+				CONCAT('%', #{keyword}, '%')) -->
+				and ( bcontent like '%' || #{keyword} || '%' OR
+				writer
+				like
+				'%' || #{keyword} || '%')
+				
+			</if>
+			<if test="searchType == 'tcw'.toString()">
+				<!-- and ( title like CONCAT('%', #{keyword}, '%')
+				OR
+				bcontent
+				like CONCAT('%', #{keyword}, '%')
+				OR
+				writer like CONCAT('%',
+				#{keyword}, '%')) -->
+				and ( title like '%' ||  #{keyword} || '%'
+				OR
+				bcontent
+				like '%' ||  #{keyword} || '%'
+				OR
+				writer like '%' ||  #{keyword} || '%') 
+			</if>
+		</if>
+	</sql>
+
+	<select id="listSearch" resultType="org.yuni.domain.BoardVO">
+<![CDATA[  
+ select * from (select * 
+  from tbl_board 
+  where bno > 0 
+]]>
+
+		<include refid="search"></include>
+  
+<![CDATA[    
+order by bno desc
+ ) where rownum <= #{pageStart},#{perPageNum}
+
+]]>
+	</select>
+
+	<select id="listSearchCount" resultType="int">
+<![CDATA[  
+  select count(bno) 
+  from tbl_board 
+  where bno > 0 
+]]>
+		<include refid="search"></include>
+
+	</select>
+
+
+
+	<update id="updateReplyCnt">
+		update tbl_board set replycnt = replycnt + #{amount}
+		where bno = #{bno}
+	</update>
+
+
+	<update id="updateViewCnt">
+		update tbl_board set viewcnt = viewcnt +1 where bno =
+		#{bno}
+	</update>
+
+
+
+	<insert id="addAttach">
+		insert into tbl_attach(fullname, bno) values
+		(#{fullName}, LAST_INSERT_ID())
+	</insert>
+<!-- [Oracle] 어떻게 적용하면 좋을까???
+# 시퀀스 생성
+create sequence id_seq start with 1 increment by 1 maxvalue 9999999999;
+# 다음 시퀀스 파악
+select nextval() from table_a; -->
+
+	<select id="getAttach" resultType="string">
+		select fullname from
+		tbl_attach where bno = #{bno} order by regdate
+	</select>
+
+
+	<delete id="deleteAttach">
+		delete from tbl_attach where bno = #{bno}
+	</delete>
+
+	<insert id="replaceAttach">
+		insert into tbl_attach(fullname, bno) values
+		(#{fullName}, #{bno})
+	</insert>
+
+
+
 </mapper>

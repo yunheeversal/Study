@@ -45,8 +45,8 @@
 	</select>
 	
 	<update id="update">
-	update member set userEmail = #{userEmail}, userName = #{userName},
-	phone = #{phone} ,address = #{address}, sms = #{sms}   where userId = #{userId}
+	update member set userEmail = #{userEmail, jdbcType=VARCHAR}, userName = #{userName, jdbcType=VARCHAR},
+	phone = #{phone, jdbcType=VARCHAR} ,address = #{address, jdbcType=VARCHAR}, sms = #{sms, jdbcType=VARCHAR}   where userId = #{userId}
 	</update>
 	
 	<insert id="create">
